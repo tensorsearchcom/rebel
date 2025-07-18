@@ -23,8 +23,7 @@ class Extractor:
         tests_path = current_dir / test_dir
 
         if not tests_path.exists():
-            print(f"Tests directory '{test_dir}' not found")
-            return
+            raise ValueError(f"Tests directory '{test_dir}' not found")
         
         self.tests_path = tests_path
         
