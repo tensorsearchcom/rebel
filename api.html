@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>API Reference &#8212; REBEL 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=01f34227"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Get Started" href="get_started.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="api-reference">
+<span id="id1"></span><h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">¶</a></h1>
+<p>This page contains the auto-generated API reference for the REBEL library.</p>
+<section id="core-data-models">
+<h2>Core Data Models<a class="headerlink" href="#core-data-models" title="Link to this heading">¶</a></h2>
+<p>These models define the fundamental data structures for assistant conversations.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="rebel.models.RoleEnum">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rebel.models.</span></span><span class="sig-name descname"><span class="pre">RoleEnum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rebel/models/api.html#RoleEnum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.RoleEnum" title="Link to this definition">¶</a></dt>
+<dd><p>Enumeration for the roles in a conversation, such as in a chat-based model.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.RoleEnum.user">
+<span class="sig-name descname"><span class="pre">user</span></span><a class="headerlink" href="#rebel.models.RoleEnum.user" title="Link to this definition">¶</a></dt>
+<dd><p>Represents a message from the end-user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.RoleEnum.assistant">
+<span class="sig-name descname"><span class="pre">assistant</span></span><a class="headerlink" href="#rebel.models.RoleEnum.assistant" title="Link to this definition">¶</a></dt>
+<dd><p>Represents a message from the AI assistant.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.RoleEnum.tool">
+<span class="sig-name descname"><span class="pre">tool</span></span><a class="headerlink" href="#rebel.models.RoleEnum.tool" title="Link to this definition">¶</a></dt>
+<dd><p>Represents the output of a tool or function call.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.RoleEnum.system">
+<span class="sig-name descname"><span class="pre">system</span></span><a class="headerlink" href="#rebel.models.RoleEnum.system" title="Link to this definition">¶</a></dt>
+<dd><p>Represents a system-level instruction or context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rebel.models.Function">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rebel.models.</span></span><span class="sig-name descname"><span class="pre">Function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rebel/models/api.html#Function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.Function" title="Link to this definition">¶</a></dt>
+<dd><p>Represents a function call with a name and its arguments.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.Function.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rebel.models.Function.name" title="Link to this definition">¶</a></dt>
+<dd><p>The name of the function that was called.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.Function.arguments">
+<span class="sig-name descname"><span class="pre">arguments</span></span><a class="headerlink" href="#rebel.models.Function.arguments" title="Link to this definition">¶</a></dt>
+<dd><p>A JSON string representing the arguments passed to the function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.Function.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#rebel.models.Function.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rebel.models.Function.parse_arguments">
+<span class="sig-name descname"><span class="pre">parse_arguments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/rebel/models/api.html#Function.parse_arguments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.Function.parse_arguments" title="Link to this definition">¶</a></dt>
+<dd><p>Parses the JSON string of arguments into a Python dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary containing the function’s arguments.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[str, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rebel.models.ToolCall">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rebel.models.</span></span><span class="sig-name descname"><span class="pre">ToolCall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'function'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'function'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.Function" title="rebel.models.api.Function"><span class="pre">Function</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rebel/models/api.html#ToolCall"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.ToolCall" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents a request from the model to call a tool (e.g., a function).</p>
+<p>This class handles the standardized structure for a tool call and includes logic
+to initialize from different data patterns.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.ToolCall.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#rebel.models.ToolCall.id" title="Link to this definition">¶</a></dt>
+<dd><p>The unique identifier for the tool call.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.ToolCall.type">
+<span class="sig-name descname"><span class="pre">type</span></span><a class="headerlink" href="#rebel.models.ToolCall.type" title="Link to this definition">¶</a></dt>
+<dd><p>The type of the tool call. Currently defaults to ‘function’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Literal[‘function’]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.ToolCall.function">
+<span class="sig-name descname"><span class="pre">function</span></span><a class="headerlink" href="#rebel.models.ToolCall.function" title="Link to this definition">¶</a></dt>
+<dd><p>The specific function to be called, including its name and arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#rebel.models.Function" title="rebel.models.Function">Function</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.ToolCall.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#rebel.models.ToolCall.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rebel.models.Message">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rebel.models.</span></span><span class="sig-name descname"><span class="pre">Message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.RoleEnum" title="rebel.models.api.RoleEnum"><span class="pre">RoleEnum</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool_calls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#rebel.models.ToolCall" title="rebel.models.api.ToolCall"><span class="pre">ToolCall</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool_call_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rebel/models/api.html#Message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.Message" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents a single message in a conversational chain.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.Message.role">
+<span class="sig-name descname"><span class="pre">role</span></span><a class="headerlink" href="#rebel.models.Message.role" title="Link to this definition">¶</a></dt>
+<dd><p>The role of the entity that produced the message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#rebel.models.RoleEnum" title="rebel.models.RoleEnum">RoleEnum</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.Message.content">
+<span class="sig-name descname"><span class="pre">content</span></span><a class="headerlink" href="#rebel.models.Message.content" title="Link to this definition">¶</a></dt>
+<dd><p>The text content of the message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.Message.tool_calls">
+<span class="sig-name descname"><span class="pre">tool_calls</span></span><a class="headerlink" href="#rebel.models.Message.tool_calls" title="Link to this definition">¶</a></dt>
+<dd><p>A list of tool calls requested by the assistant.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[List[<a class="reference internal" href="#rebel.models.ToolCall" title="rebel.models.ToolCall">ToolCall</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.Message.tool_call_id">
+<span class="sig-name descname"><span class="pre">tool_call_id</span></span><a class="headerlink" href="#rebel.models.Message.tool_call_id" title="Link to this definition">¶</a></dt>
+<dd><p>The ID of the tool call this message is a response to.
+This is used for messages with the ‘tool’ role.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.Message.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#rebel.models.Message.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rebel.models.AssistantInput">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rebel.models.</span></span><span class="sig-name descname"><span class="pre">AssistantInput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">messages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#rebel.models.Message" title="rebel.models.api.Message"><span class="pre">Message</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rebel/models/api.html#AssistantInput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.AssistantInput" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Defines the complete input for an assistant or language model.</p>
+<p>This class bundles the conversational history with any API-specific parameters
+needed for the model invocation.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.AssistantInput.messages">
+<span class="sig-name descname"><span class="pre">messages</span></span><a class="headerlink" href="#rebel.models.AssistantInput.messages" title="Link to this definition">¶</a></dt>
+<dd><p>The sequence of messages forming the conversation history.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="#rebel.models.Message" title="rebel.models.Message">Message</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.AssistantInput.api_params">
+<span class="sig-name descname"><span class="pre">api_params</span></span><a class="headerlink" href="#rebel.models.AssistantInput.api_params" title="Link to this definition">¶</a></dt>
+<dd><p>A dictionary of parameters to be passed to the
+model’s API, such as temperature or max_tokens.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.AssistantInput.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#rebel.models.AssistantInput.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rebel.models.AssistantOutput">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rebel.models.</span></span><span class="sig-name descname"><span class="pre">AssistantOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tools_called</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#rebel.models.ToolCall" title="rebel.models.api.ToolCall"><span class="pre">ToolCall</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">execution_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rebel/models/api.html#AssistantOutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.AssistantOutput" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents the output generated by an assistant after processing an input.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.AssistantOutput.output">
+<span class="sig-name descname"><span class="pre">output</span></span><a class="headerlink" href="#rebel.models.AssistantOutput.output" title="Link to this definition">¶</a></dt>
+<dd><p>The primary text response from the assistant. Defaults to ‘’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.AssistantOutput.tools_called">
+<span class="sig-name descname"><span class="pre">tools_called</span></span><a class="headerlink" href="#rebel.models.AssistantOutput.tools_called" title="Link to this definition">¶</a></dt>
+<dd><p>A list of any tools or functions the
+assistant decided to call. Defaults to an empty list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[List[<a class="reference internal" href="#rebel.models.ToolCall" title="rebel.models.ToolCall">ToolCall</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.AssistantOutput.context">
+<span class="sig-name descname"><span class="pre">context</span></span><a class="headerlink" href="#rebel.models.AssistantOutput.context" title="Link to this definition">¶</a></dt>
+<dd><p>Additional context information, such as retrieved
+documents or sources used to generate the response. Defaults to an empty list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[List[str]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.AssistantOutput.execution_time">
+<span class="sig-name descname"><span class="pre">execution_time</span></span><a class="headerlink" href="#rebel.models.AssistantOutput.execution_time" title="Link to this definition">¶</a></dt>
+<dd><p>The time in seconds it took to generate the output.
+This is typically <cite>None</cite> when defining an expected output for a test case.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.AssistantOutput.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#rebel.models.AssistantOutput.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="test-configuration-models">
+<h2>Test Configuration Models<a class="headerlink" href="#test-configuration-models" title="Link to this heading">¶</a></h2>
+<p>These models are used to define and configure test suites and test cases.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="rebel.models.test.RetryAggregationStrategy">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rebel.models.test.</span></span><span class="sig-name descname"><span class="pre">RetryAggregationStrategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rebel/models/test.html#RetryAggregationStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.test.RetryAggregationStrategy" title="Link to this definition">¶</a></dt>
+<dd><p>Defines strategies for aggregating metrics from multiple retry attempts.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rebel.models.test.RetryParams">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rebel.models.test.</span></span><span class="sig-name descname"><span class="pre">RetryParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aggregation_strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.test.RetryAggregationStrategy" title="rebel.models.test.RetryAggregationStrategy"><span class="pre">RetryAggregationStrategy</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">RetryAggregationStrategy.MEAN</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rebel/models/test.html#RetryParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.test.RetryParams" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Specifies the parameters for retrying a test case.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.RetryParams.count">
+<span class="sig-name descname"><span class="pre">count</span></span><a class="headerlink" href="#rebel.models.test.RetryParams.count" title="Link to this definition">¶</a></dt>
+<dd><p>The number of times to retry a test case upon failure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.RetryParams.aggregation_strategy">
+<span class="sig-name descname"><span class="pre">aggregation_strategy</span></span><a class="headerlink" href="#rebel.models.test.RetryParams.aggregation_strategy" title="Link to this definition">¶</a></dt>
+<dd><p>The strategy to use for
+aggregating metrics across all attempts. Defaults to ‘mean’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[<a class="reference internal" href="#rebel.models.test.RetryAggregationStrategy" title="rebel.models.test.RetryAggregationStrategy">RetryAggregationStrategy</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.RetryParams.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#rebel.models.test.RetryParams.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rebel.models.test.ParameterGrid">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rebel.models.test.</span></span><span class="sig-name descname"><span class="pre">ParameterGrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rebel/models/test.html#ParameterGrid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.test.ParameterGrid" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents a grid of parameters for generating multiple test case variations.</p>
+<p>This class holds a dictionary of parameters where each value is a list of
+possible options. The <cite>expand</cite> method can be used to generate the Cartesian
+product of these options.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.ParameterGrid.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><a class="headerlink" href="#rebel.models.test.ParameterGrid.parameters" title="Link to this definition">¶</a></dt>
+<dd><p>A dictionary where keys are parameter names
+and values are lists of possible values for that parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, List[Any]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rebel.models.test.ParameterGrid.expand">
+<span class="sig-name descname"><span class="pre">expand</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/rebel/models/test.html#ParameterGrid.expand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.test.ParameterGrid.expand" title="Link to this definition">¶</a></dt>
+<dd><p>Generates all unique parameter combinations from the grid.</p>
+<p>This method computes the Cartesian product of the parameter lists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of dictionaries, where each dictionary
+represents a unique combination of parameters.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[Dict[str, Any]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.ParameterGrid.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#rebel.models.test.ParameterGrid.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rebel.models.extraction.TestGroup">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rebel.models.extraction.</span></span><span class="sig-name descname"><span class="pre">TestGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">*,</span> <span class="pre">metrics:</span> <span class="pre">~typing.List[~rebel.models.metric.Metric],</span> <span class="pre">tags:</span> <span class="pre">~typing.List[str]</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">[],</span> <span class="pre">retry_params:</span> <span class="pre">~rebel.models.test.RetryParams</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">RetryParams(count=1,</span> <span class="pre">aggregation_strategy=&lt;RetryAggregationStrategy.MEAN:</span> <span class="pre">'mean'&gt;),</span> <span class="pre">postfix:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rebel/models/extraction.html#TestGroup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.extraction.TestGroup" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents a configuration for a group of related tests.</p>
+<p>This class is used to apply common settings such as metrics, tags, and retry
+policies to a collection of tests, often generated from a single source like
+a decorated function.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.extraction.TestGroup.metrics">
+<span class="sig-name descname"><span class="pre">metrics</span></span><a class="headerlink" href="#rebel.models.extraction.TestGroup.metrics" title="Link to this definition">¶</a></dt>
+<dd><p>A list of metrics to be applied to all tests
+within this group.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="#rebel.models.metric.Metric" title="rebel.models.metric.Metric">Metric</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.extraction.TestGroup.tags">
+<span class="sig-name descname"><span class="pre">tags</span></span><a class="headerlink" href="#rebel.models.extraction.TestGroup.tags" title="Link to this definition">¶</a></dt>
+<dd><p>A list of tags for categorizing and filtering
+the tests in this group. Defaults to an empty list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[List[str]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.extraction.TestGroup.retry_params">
+<span class="sig-name descname"><span class="pre">retry_params</span></span><a class="headerlink" href="#rebel.models.extraction.TestGroup.retry_params" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for retrying failed
+tests. By default, tests are run once with no retries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[<a class="reference internal" href="#rebel.models.test.RetryParams" title="rebel.models.test.RetryParams">RetryParams</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.extraction.TestGroup.postfix">
+<span class="sig-name descname"><span class="pre">postfix</span></span><a class="headerlink" href="#rebel.models.extraction.TestGroup.postfix" title="Link to this definition">¶</a></dt>
+<dd><p>An optional string to be appended to the base
+name of each test in the group, helping to create unique and
+descriptive test names. Defaults to None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.extraction.TestGroup.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#rebel.models.extraction.TestGroup.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="test-execution-flow">
+<h2>Test Execution Flow<a class="headerlink" href="#test-execution-flow" title="Link to this heading">¶</a></h2>
+<p>These models represent the lifecycle of a test from definition to execution.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="rebel.models.test.TestSuite">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rebel.models.test.</span></span><span class="sig-name descname"><span class="pre">TestSuite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.test.RetryParams" title="rebel.models.test.RetryParams"><span class="pre">RetryParams</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">messages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#rebel.models.Message" title="rebel.models.api.Message"><span class="pre">Message</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.test.ParameterGrid" title="rebel.models.test.ParameterGrid"><span class="pre">ParameterGrid</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.AssistantOutput" title="rebel.models.api.AssistantOutput"><span class="pre">AssistantOutput</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#rebel.models.metric.Metric" title="rebel.models.metric.Metric"><span class="pre">Metric</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainSerializer</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">serialize_metric</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">when_used</span></span><span class="o"><span class="pre">=</span></span><span class="pre">json</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rebel/models/test.html#TestSuite"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.test.TestSuite" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Defines a suite of tests that expands into multiple concrete test cases.</p>
+<p>A TestSuite is a high-level configuration that uses a parameter grid to generate
+a set of related test cases. It specifies the shared context, expected output
+structure, and metrics for an entire group of tests.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.TestSuite.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rebel.models.test.TestSuite.name" title="Link to this definition">¶</a></dt>
+<dd><p>The name of the test suite.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.TestSuite.tags">
+<span class="sig-name descname"><span class="pre">tags</span></span><a class="headerlink" href="#rebel.models.test.TestSuite.tags" title="Link to this definition">¶</a></dt>
+<dd><p>A list of tags for categorizing and filtering the suite.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.TestSuite.retry_params">
+<span class="sig-name descname"><span class="pre">retry_params</span></span><a class="headerlink" href="#rebel.models.test.TestSuite.retry_params" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for retrying failed tests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#rebel.models.test.RetryParams" title="rebel.models.test.RetryParams">RetryParams</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.TestSuite.messages">
+<span class="sig-name descname"><span class="pre">messages</span></span><a class="headerlink" href="#rebel.models.test.TestSuite.messages" title="Link to this definition">¶</a></dt>
+<dd><p>The list of messages that form the input prompt.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="#rebel.models.Message" title="rebel.models.Message">Message</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.TestSuite.api_params">
+<span class="sig-name descname"><span class="pre">api_params</span></span><a class="headerlink" href="#rebel.models.test.TestSuite.api_params" title="Link to this definition">¶</a></dt>
+<dd><p>Default API parameters for all tests in the suite.
+These can be overridden by the parameter_grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.TestSuite.parameter_grid">
+<span class="sig-name descname"><span class="pre">parameter_grid</span></span><a class="headerlink" href="#rebel.models.test.TestSuite.parameter_grid" title="Link to this definition">¶</a></dt>
+<dd><p>A grid of parameters to generate variations of
+test cases. These have higher priority than <cite>api_params</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#rebel.models.test.ParameterGrid" title="rebel.models.test.ParameterGrid">ParameterGrid</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.TestSuite.expected_output">
+<span class="sig-name descname"><span class="pre">expected_output</span></span><a class="headerlink" href="#rebel.models.test.TestSuite.expected_output" title="Link to this definition">¶</a></dt>
+<dd><p>The expected output structure or content.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#rebel.models.AssistantOutput" title="rebel.models.AssistantOutput">AssistantOutput</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.TestSuite.metrics">
+<span class="sig-name descname"><span class="pre">metrics</span></span><a class="headerlink" href="#rebel.models.test.TestSuite.metrics" title="Link to this definition">¶</a></dt>
+<dd><p>A list of metrics to evaluate the
+outputs of the test cases generated from this suite.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[SerializableMetric]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.TestSuite.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'arbitrary_types_allowed':</span> <span class="pre">True}</span></em><a class="headerlink" href="#rebel.models.test.TestSuite.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rebel.models.test.TestInfo">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rebel.models.test.</span></span><span class="sig-name descname"><span class="pre">TestInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.test.RetryParams" title="rebel.models.test.RetryParams"><span class="pre">RetryParams</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.AssistantInput" title="rebel.models.api.AssistantInput"><span class="pre">AssistantInput</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.AssistantOutput" title="rebel.models.api.AssistantOutput"><span class="pre">AssistantOutput</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rebel/models/test.html#TestInfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.test.TestInfo" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>A base model containing common information for a single test case.</p>
+<p>This class encapsulates the core, non-varying details of a test, which are
+shared across all retry attempts for that test.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.TestInfo.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rebel.models.test.TestInfo.name" title="Link to this definition">¶</a></dt>
+<dd><p>The name of the test case.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.TestInfo.tags">
+<span class="sig-name descname"><span class="pre">tags</span></span><a class="headerlink" href="#rebel.models.test.TestInfo.tags" title="Link to this definition">¶</a></dt>
+<dd><p>A list of tags for categorization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.TestInfo.retry_params">
+<span class="sig-name descname"><span class="pre">retry_params</span></span><a class="headerlink" href="#rebel.models.test.TestInfo.retry_params" title="Link to this definition">¶</a></dt>
+<dd><p>Retry configuration, needed for post-evaluation
+aggregation of results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#rebel.models.test.RetryParams" title="rebel.models.test.RetryParams">RetryParams</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.TestInfo.input">
+<span class="sig-name descname"><span class="pre">input</span></span><a class="headerlink" href="#rebel.models.test.TestInfo.input" title="Link to this definition">¶</a></dt>
+<dd><p>The fully constructed input for the assistant.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#rebel.models.AssistantInput" title="rebel.models.AssistantInput">AssistantInput</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.TestInfo.expected_output">
+<span class="sig-name descname"><span class="pre">expected_output</span></span><a class="headerlink" href="#rebel.models.test.TestInfo.expected_output" title="Link to this definition">¶</a></dt>
+<dd><p>The expected output for the test case.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#rebel.models.AssistantOutput" title="rebel.models.AssistantOutput">AssistantOutput</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.TestInfo.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#rebel.models.test.TestInfo.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rebel.models.test.TestCase">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rebel.models.test.</span></span><span class="sig-name descname"><span class="pre">TestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.test.RetryParams" title="rebel.models.test.RetryParams"><span class="pre">RetryParams</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.AssistantInput" title="rebel.models.api.AssistantInput"><span class="pre">AssistantInput</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.AssistantOutput" title="rebel.models.api.AssistantOutput"><span class="pre">AssistantOutput</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#rebel.models.metric.Metric" title="rebel.models.metric.Metric"><span class="pre">Metric</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainSerializer</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">serialize_metric</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">when_used</span></span><span class="o"><span class="pre">=</span></span><span class="pre">json</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rebel/models/test.html#TestCase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.test.TestCase" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#rebel.models.test.TestInfo" title="rebel.models.test.TestInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">TestInfo</span></code></a></p>
+<p>Represents a single, concrete test case with a fixed set of parameters.</p>
+<p>This class inherits from TestInfo and adds the specific metrics to be used for
+evaluation. It represents a single runnable test that may be executed
+multiple times according to its retry parameters.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.TestCase.metrics">
+<span class="sig-name descname"><span class="pre">metrics</span></span><a class="headerlink" href="#rebel.models.test.TestCase.metrics" title="Link to this definition">¶</a></dt>
+<dd><p>The list of metrics to apply to the
+results of this specific test case.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[SerializableMetric]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.TestCase.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'arbitrary_types_allowed':</span> <span class="pre">True}</span></em><a class="headerlink" href="#rebel.models.test.TestCase.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rebel.models.test.TestAttempt">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rebel.models.test.</span></span><span class="sig-name descname"><span class="pre">TestAttempt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.test.RetryParams" title="rebel.models.test.RetryParams"><span class="pre">RetryParams</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.AssistantInput" title="rebel.models.api.AssistantInput"><span class="pre">AssistantInput</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.AssistantOutput" title="rebel.models.api.AssistantOutput"><span class="pre">AssistantOutput</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#rebel.models.metric.Metric" title="rebel.models.metric.Metric"><span class="pre">Metric</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainSerializer</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">serialize_metric</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">when_used</span></span><span class="o"><span class="pre">=</span></span><span class="pre">json</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rebel/models/test.html#TestAttempt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.test.TestAttempt" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#rebel.models.test.TestCase" title="rebel.models.test.TestCase"><code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></a></p>
+<p>Represents a single attempt to run a specific test case.</p>
+<p>This class inherits all information from a TestCase and adds an attempt number
+to distinguish it from other retries of the same test.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.TestAttempt.number">
+<span class="sig-name descname"><span class="pre">number</span></span><a class="headerlink" href="#rebel.models.test.TestAttempt.number" title="Link to this definition">¶</a></dt>
+<dd><p>The sequential number of this attempt (e.g., 1, 2, 3).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rebel.models.test.TestAttempt.get_name">
+<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/rebel/models/test.html#TestAttempt.get_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.test.TestAttempt.get_name" title="Link to this definition">¶</a></dt>
+<dd><p>Generates a unique name for the test attempt.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The name of the test case appended with the attempt number.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.TestAttempt.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'arbitrary_types_allowed':</span> <span class="pre">True}</span></em><a class="headerlink" href="#rebel.models.test.TestAttempt.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rebel.models.test.TestAttemptExecuted">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rebel.models.test.</span></span><span class="sig-name descname"><span class="pre">TestAttemptExecuted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.test.RetryParams" title="rebel.models.test.RetryParams"><span class="pre">RetryParams</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.AssistantInput" title="rebel.models.api.AssistantInput"><span class="pre">AssistantInput</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.AssistantOutput" title="rebel.models.api.AssistantOutput"><span class="pre">AssistantOutput</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#rebel.models.metric.Metric" title="rebel.models.metric.Metric"><span class="pre">Metric</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainSerializer</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">serialize_metric</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">when_used</span></span><span class="o"><span class="pre">=</span></span><span class="pre">json</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actual_output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.AssistantOutput" title="rebel.models.api.AssistantOutput"><span class="pre">AssistantOutput</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rebel/models/test.html#TestAttemptExecuted"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.test.TestAttemptExecuted" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#rebel.models.test.TestAttempt" title="rebel.models.test.TestAttempt"><code class="xref py py-class docutils literal notranslate"><span class="pre">TestAttempt</span></code></a></p>
+<p>Represents a test attempt after it has been executed.</p>
+<p>This class extends TestAttempt by including the output received from the
+assistant, making it ready for evaluation against the expected output.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.TestAttemptExecuted.actual_output">
+<span class="sig-name descname"><span class="pre">actual_output</span></span><a class="headerlink" href="#rebel.models.test.TestAttemptExecuted.actual_output" title="Link to this definition">¶</a></dt>
+<dd><p>The actual output returned by the
+assistant during this attempt.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#rebel.models.AssistantOutput" title="rebel.models.AssistantOutput">AssistantOutput</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.test.TestAttemptExecuted.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'arbitrary_types_allowed':</span> <span class="pre">True}</span></em><a class="headerlink" href="#rebel.models.test.TestAttemptExecuted.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="evaluation-and-metrics">
+<h2>Evaluation and Metrics<a class="headerlink" href="#evaluation-and-metrics" title="Link to this heading">¶</a></h2>
+<p>These models define the structure for evaluating test results.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="rebel.models.metric.EvaluationVerdict">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rebel.models.metric.</span></span><span class="sig-name descname"><span class="pre">EvaluationVerdict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rebel/models/metric.html#EvaluationVerdict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.metric.EvaluationVerdict" title="Link to this definition">¶</a></dt>
+<dd><p>Enumeration for the possible outcomes of an evaluation.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.metric.EvaluationVerdict.PASSED">
+<span class="sig-name descname"><span class="pre">PASSED</span></span><a class="headerlink" href="#rebel.models.metric.EvaluationVerdict.PASSED" title="Link to this definition">¶</a></dt>
+<dd><p>Indicates that the evaluation met the success criteria.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.metric.EvaluationVerdict.FAILED">
+<span class="sig-name descname"><span class="pre">FAILED</span></span><a class="headerlink" href="#rebel.models.metric.EvaluationVerdict.FAILED" title="Link to this definition">¶</a></dt>
+<dd><p>Indicates that the evaluation did not meet the success criteria.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.metric.EvaluationVerdict.ERROR">
+<span class="sig-name descname"><span class="pre">ERROR</span></span><a class="headerlink" href="#rebel.models.metric.EvaluationVerdict.ERROR" title="Link to this definition">¶</a></dt>
+<dd><p>Indicates that an error occurred during the evaluation process itself.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rebel.models.metric.EvaluationResult">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rebel.models.metric.</span></span><span class="sig-name descname"><span class="pre">EvaluationResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verdict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.metric.EvaluationVerdict" title="rebel.models.metric.EvaluationVerdict"><span class="pre">EvaluationVerdict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rebel/models/metric.html#EvaluationResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.metric.EvaluationResult" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Represents the detailed outcome of a single metric’s evaluation.</p>
+<p>This class encapsulates all the information generated when a metric is used to
+compare an actual output against an expected one.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.metric.EvaluationResult.score">
+<span class="sig-name descname"><span class="pre">score</span></span><a class="headerlink" href="#rebel.models.metric.EvaluationResult.score" title="Link to this definition">¶</a></dt>
+<dd><p>The numerical score assigned by the metric, where the scale
+is defined by the metric itself (e.g., 0.0 to 1.0).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.metric.EvaluationResult.verdict">
+<span class="sig-name descname"><span class="pre">verdict</span></span><a class="headerlink" href="#rebel.models.metric.EvaluationResult.verdict" title="Link to this definition">¶</a></dt>
+<dd><p>The final qualitative judgment (PASSED, FAILED, or ERROR).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#rebel.models.metric.EvaluationVerdict" title="rebel.models.metric.EvaluationVerdict">EvaluationVerdict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.metric.EvaluationResult.reason">
+<span class="sig-name descname"><span class="pre">reason</span></span><a class="headerlink" href="#rebel.models.metric.EvaluationResult.reason" title="Link to this definition">¶</a></dt>
+<dd><p>A human-readable explanation for the score and verdict.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.metric.EvaluationResult.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#rebel.models.metric.EvaluationResult.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rebel.models.metric.Metric">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rebel.models.metric.</span></span><span class="sig-name descname"><span class="pre">Metric</span></span><a class="reference internal" href="_modules/rebel/models/metric.html#Metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.metric.Metric" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>An abstract base class that defines the interface for all evaluation metrics.</p>
+<p>To create a new metric, you must inherit from this class and implement the
+<cite>measure</cite> and <cite>get_name</cite> methods.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="rebel.models.metric.Metric.get_name">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/rebel/models/metric.html#Metric.get_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.metric.Metric.get_name" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a unique, human-readable name for the metric instance.</p>
+<p>This is often used for logging and reporting purposes. It can include
+hyperparameters of the metric (e.g., “BERTScore-F1”).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The name of the metric.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rebel.models.metric.Metric.measure">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.AssistantInput" title="rebel.models.api.AssistantInput"><span class="pre">AssistantInput</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.AssistantOutput" title="rebel.models.api.AssistantOutput"><span class="pre">AssistantOutput</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">actual</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.AssistantOutput" title="rebel.models.api.AssistantOutput"><span class="pre">AssistantOutput</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rebel.models.metric.EvaluationResult" title="rebel.models.metric.EvaluationResult"><span class="pre">EvaluationResult</span></a></span></span><a class="reference internal" href="_modules/rebel/models/metric.html#Metric.measure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.metric.Metric.measure" title="Link to this definition">¶</a></dt>
+<dd><p>Compares the actual output against the expected output for a given input.</p>
+<p>This is the core method of any metric, containing the logic for scoring
+the performance of the assistant’s response.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input</strong> (<a class="reference internal" href="#rebel.models.AssistantInput" title="rebel.models.AssistantInput"><em>AssistantInput</em></a>) – The original input given to the assistant.</p></li>
+<li><p><strong>expected</strong> (<a class="reference internal" href="#rebel.models.AssistantOutput" title="rebel.models.AssistantOutput"><em>AssistantOutput</em></a>) – The ground truth or expected output.</p></li>
+<li><p><strong>actual</strong> (<a class="reference internal" href="#rebel.models.AssistantOutput" title="rebel.models.AssistantOutput"><em>AssistantOutput</em></a>) – The actual output produced by the assistant.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An object containing the score, verdict, and reason.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#rebel.models.metric.EvaluationResult" title="rebel.models.metric.EvaluationResult">EvaluationResult</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.metric.Metric.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'arbitrary_types_allowed':</span> <span class="pre">True}</span></em><a class="headerlink" href="#rebel.models.metric.Metric.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rebel.models.evaluation.EvaluationAttempt">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rebel.models.evaluation.</span></span><span class="sig-name descname"><span class="pre">EvaluationAttempt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.test.RetryParams" title="rebel.models.test.RetryParams"><span class="pre">RetryParams</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.AssistantInput" title="rebel.models.api.AssistantInput"><span class="pre">AssistantInput</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.AssistantOutput" title="rebel.models.api.AssistantOutput"><span class="pre">AssistantOutput</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#rebel.models.metric.Metric" title="rebel.models.metric.Metric"><span class="pre">Metric</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainSerializer</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">serialize_metric</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">when_used</span></span><span class="o"><span class="pre">=</span></span><span class="pre">json</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actual_output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.AssistantOutput" title="rebel.models.api.AssistantOutput"><span class="pre">AssistantOutput</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#rebel.models.metric.Metric" title="rebel.models.metric.Metric"><span class="pre">Metric</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainSerializer</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">serialize_metric</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">when_used</span></span><span class="o"><span class="pre">=</span></span><span class="pre">json</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rebel/models/evaluation.html#EvaluationAttempt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.evaluation.EvaluationAttempt" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#rebel.models.test.TestAttemptExecuted" title="rebel.models.test.TestAttemptExecuted"><code class="xref py py-class docutils literal notranslate"><span class="pre">TestAttemptExecuted</span></code></a></p>
+<p>Represents a single test attempt that is ready to be evaluated by a specific metric.</p>
+<p>This class pairs an executed test attempt (which includes the input, actual output,
+and expected output) with one of the metrics designated for its evaluation.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.evaluation.EvaluationAttempt.metric">
+<span class="sig-name descname"><span class="pre">metric</span></span><a class="headerlink" href="#rebel.models.evaluation.EvaluationAttempt.metric" title="Link to this definition">¶</a></dt>
+<dd><p>The specific metric that will be used to evaluate
+this test attempt.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SerializableMetric</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.evaluation.EvaluationAttempt.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'arbitrary_types_allowed':</span> <span class="pre">True}</span></em><a class="headerlink" href="#rebel.models.evaluation.EvaluationAttempt.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rebel.models.evaluation.EvaluationAttemptEvaluated">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rebel.models.evaluation.</span></span><span class="sig-name descname"><span class="pre">EvaluationAttemptEvaluated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.test.RetryParams" title="rebel.models.test.RetryParams"><span class="pre">RetryParams</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.AssistantInput" title="rebel.models.api.AssistantInput"><span class="pre">AssistantInput</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.AssistantOutput" title="rebel.models.api.AssistantOutput"><span class="pre">AssistantOutput</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#rebel.models.metric.Metric" title="rebel.models.metric.Metric"><span class="pre">Metric</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainSerializer</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">serialize_metric</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">when_used</span></span><span class="o"><span class="pre">=</span></span><span class="pre">json</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actual_output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.AssistantOutput" title="rebel.models.api.AssistantOutput"><span class="pre">AssistantOutput</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#rebel.models.metric.Metric" title="rebel.models.metric.Metric"><span class="pre">Metric</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainSerializer</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">serialize_metric</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">when_used</span></span><span class="o"><span class="pre">=</span></span><span class="pre">json</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_result</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.metric.EvaluationResult" title="rebel.models.metric.EvaluationResult"><span class="pre">EvaluationResult</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rebel/models/evaluation.html#EvaluationAttemptEvaluated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.evaluation.EvaluationAttemptEvaluated" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#rebel.models.evaluation.EvaluationAttempt" title="rebel.models.evaluation.EvaluationAttempt"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvaluationAttempt</span></code></a></p>
+<p>Represents a test attempt after it has been evaluated by its designated metric.</p>
+<p>This class extends <cite>EvaluationAttempt</cite> by including the <cite>EvaluationResult</cite>, which
+contains the score, verdict, and reasoning from the metric’s calculation.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.evaluation.EvaluationAttemptEvaluated.evaluation_result">
+<span class="sig-name descname"><span class="pre">evaluation_result</span></span><a class="headerlink" href="#rebel.models.evaluation.EvaluationAttemptEvaluated.evaluation_result" title="Link to this definition">¶</a></dt>
+<dd><p>The outcome of applying the metric to the
+test attempt’s actual and expected outputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#rebel.models.metric.EvaluationResult" title="rebel.models.metric.EvaluationResult">EvaluationResult</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.evaluation.EvaluationAttemptEvaluated.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'arbitrary_types_allowed':</span> <span class="pre">True}</span></em><a class="headerlink" href="#rebel.models.evaluation.EvaluationAttemptEvaluated.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rebel.models.evaluation.TestCaseEvaluated">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rebel.models.evaluation.</span></span><span class="sig-name descname"><span class="pre">TestCaseEvaluated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.test.RetryParams" title="rebel.models.test.RetryParams"><span class="pre">RetryParams</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.AssistantInput" title="rebel.models.api.AssistantInput"><span class="pre">AssistantInput</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.AssistantOutput" title="rebel.models.api.AssistantOutput"><span class="pre">AssistantOutput</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#rebel.models.metric.Metric" title="rebel.models.metric.Metric"><span class="pre">Metric</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainSerializer</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">serialize_metric</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">when_used</span></span><span class="o"><span class="pre">=</span></span><span class="pre">json</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actual_outputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#rebel.models.AssistantOutput" title="rebel.models.api.AssistantOutput"><span class="pre">AssistantOutput</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#rebel.models.metric.EvaluationResult" title="rebel.models.metric.EvaluationResult"><span class="pre">EvaluationResult</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aggregated_result</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rebel.models.metric.EvaluationResult" title="rebel.models.metric.EvaluationResult"><span class="pre">EvaluationResult</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rebel/models/evaluation.html#TestCaseEvaluated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rebel.models.evaluation.TestCaseEvaluated" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#rebel.models.test.TestCase" title="rebel.models.test.TestCase"><code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></a></p>
+<p>Represents a fully evaluated test case, including aggregated results from all attempts.</p>
+<p>This class provides a comprehensive summary of a single test case’s performance
+after all its retry attempts have been executed and every relevant metric has been applied.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.evaluation.TestCaseEvaluated.actual_outputs">
+<span class="sig-name descname"><span class="pre">actual_outputs</span></span><a class="headerlink" href="#rebel.models.evaluation.TestCaseEvaluated.actual_outputs" title="Link to this definition">¶</a></dt>
+<dd><p>A list of all the actual outputs
+generated across all retry attempts for this test case.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="#rebel.models.AssistantOutput" title="rebel.models.AssistantOutput">AssistantOutput</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.evaluation.TestCaseEvaluated.evaluation_results">
+<span class="sig-name descname"><span class="pre">evaluation_results</span></span><a class="headerlink" href="#rebel.models.evaluation.TestCaseEvaluated.evaluation_results" title="Link to this definition">¶</a></dt>
+<dd><p>A flat list of all individual
+evaluation results from every metric applied to every attempt.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="#rebel.models.metric.EvaluationResult" title="rebel.models.metric.EvaluationResult">EvaluationResult</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.evaluation.TestCaseEvaluated.aggregated_result">
+<span class="sig-name descname"><span class="pre">aggregated_result</span></span><a class="headerlink" href="#rebel.models.evaluation.TestCaseEvaluated.aggregated_result" title="Link to this definition">¶</a></dt>
+<dd><p>The final, single evaluation result that
+summarizes the performance across all attempts, calculated using the
+aggregation strategy defined in the test’s <cite>retry_params</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#rebel.models.metric.EvaluationResult" title="rebel.models.metric.EvaluationResult">EvaluationResult</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rebel.models.evaluation.TestCaseEvaluated.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'arbitrary_types_allowed':</span> <span class="pre">True}</span></em><a class="headerlink" href="#rebel.models.evaluation.TestCaseEvaluated.model_config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">REBEL</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="get_started.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#core-data-models">Core Data Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#test-configuration-models">Test Configuration Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#test-execution-flow">Test Execution Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#evaluation-and-metrics">Evaluation and Metrics</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="get_started.html" title="previous chapter">Get Started</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Alexander Ploskin.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/api.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,109 @@
+.. _api-reference:
+
+API Reference
+=============
+
+This page contains the auto-generated API reference for the REBEL library.
+
+Core Data Models
+----------------
+
+These models define the fundamental data structures for assistant conversations.
+
+.. autoclass:: rebel.models.RoleEnum
+   :members:
+
+.. autoclass:: rebel.models.Function
+   :members:
+
+.. autoclass:: rebel.models.ToolCall
+   :members:
+   :show-inheritance:
+
+.. autoclass:: rebel.models.Message
+   :members:
+   :show-inheritance:
+
+.. autoclass:: rebel.models.AssistantInput
+   :members:
+   :show-inheritance:
+
+.. autoclass:: rebel.models.AssistantOutput
+   :members:
+   :show-inheritance:
+
+
+Test Configuration Models
+-------------------------
+
+These models are used to define and configure test suites and test cases.
+
+.. autoclass:: rebel.models.test.RetryAggregationStrategy
+   :members:
+
+.. autoclass:: rebel.models.test.RetryParams
+   :members:
+   :show-inheritance:
+
+.. autoclass:: rebel.models.test.ParameterGrid
+   :members:
+   :show-inheritance:
+
+.. autoclass:: rebel.models.extraction.TestGroup
+   :members:
+   :show-inheritance:
+
+
+Test Execution Flow
+-------------------
+
+These models represent the lifecycle of a test from definition to execution.
+
+.. autoclass:: rebel.models.test.TestSuite
+   :members:
+   :show-inheritance:
+
+.. autoclass:: rebel.models.test.TestInfo
+   :members:
+   :show-inheritance:
+
+.. autoclass:: rebel.models.test.TestCase
+   :members:
+   :show-inheritance:
+
+.. autoclass:: rebel.models.test.TestAttempt
+   :members:
+   :show-inheritance:
+
+.. autoclass:: rebel.models.test.TestAttemptExecuted
+   :members:
+   :show-inheritance:
+
+
+Evaluation and Metrics
+----------------------
+
+These models define the structure for evaluating test results.
+
+.. autoclass:: rebel.models.metric.EvaluationVerdict
+   :members:
+
+.. autoclass:: rebel.models.metric.EvaluationResult
+   :members:
+   :show-inheritance:
+
+.. autoclass:: rebel.models.metric.Metric
+   :members:
+   :show-inheritance:
+
+.. autoclass:: rebel.models.evaluation.EvaluationAttempt
+   :members:
+   :show-inheritance:
+
+.. autoclass:: rebel.models.evaluation.EvaluationAttemptEvaluated
+   :members:
+   :show-inheritance:
+
+.. autoclass:: rebel.models.evaluation.TestCaseEvaluated
+   :members:
+   :show-inheritance:

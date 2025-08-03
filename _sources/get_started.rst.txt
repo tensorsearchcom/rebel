@@ -1,0 +1,29 @@
+.. _get-started:
+
+Get Started
+===========
+
+This guide will walk you through the basics of using our library.
+
+Installation
+------------
+
+You can install the library using pip:
+
+.. code-block:: bash
+
+   pip install my-library
+
+A Simple Example
+----------------
+
+Here is a simple example of how to use the library:
+
+.. code-block:: python
+
+   from my_library import MyClass
+
+   my_instance = MyClass("hello", 123)
+   result = my_instance.my_method(True)
+   print(result)
+

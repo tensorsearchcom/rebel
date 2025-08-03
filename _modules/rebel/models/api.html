@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>rebel.models.api &#8212; REBEL 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=27fed22d" />
+    <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for rebel.models.api</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+
+<div class="viewcode-block" id="RoleEnum">
+<a class="viewcode-back" href="../../../api.html#rebel.models.RoleEnum">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RoleEnum</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enumeration for the roles in a conversation, such as in a chat-based model.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        user (str): Represents a message from the end-user.</span>
+<span class="sd">        assistant (str): Represents a message from the AI assistant.</span>
+<span class="sd">        tool (str): Represents the output of a tool or function call.</span>
+<span class="sd">        system (str): Represents a system-level instruction or context.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="s1">&#39;user&#39;</span>
+    <span class="n">assistant</span> <span class="o">=</span> <span class="s1">&#39;assistant&#39;</span>
+    <span class="n">tool</span> <span class="o">=</span> <span class="s1">&#39;tool&#39;</span>
+    <span class="n">system</span> <span class="o">=</span> <span class="s1">&#39;system&#39;</span></div>
+
+
+
+<div class="viewcode-block" id="Function">
+<a class="viewcode-back" href="../../../api.html#rebel.models.Function">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Function</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a function call with a name and its arguments.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        name (str): The name of the function that was called.</span>
+<span class="sd">        arguments (str): A JSON string representing the arguments passed to the function.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">arguments</span><span class="p">:</span> <span class="nb">str</span>
+
+<div class="viewcode-block" id="Function.parse_arguments">
+<a class="viewcode-back" href="../../../api.html#rebel.models.Function.parse_arguments">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parses the JSON string of arguments into a Python dictionary.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, Any]: A dictionary containing the function&#39;s arguments.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arguments</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ToolCall">
+<a class="viewcode-back" href="../../../api.html#rebel.models.ToolCall">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ToolCall</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a request from the model to call a tool (e.g., a function).</span>
+
+<span class="sd">    This class handles the standardized structure for a tool call and includes logic</span>
+<span class="sd">    to initialize from different data patterns.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        id (str): The unique identifier for the tool call.</span>
+<span class="sd">        type (Literal[&#39;function&#39;]): The type of the tool call. Currently defaults to &#39;function&#39;.</span>
+<span class="sd">        function (Function): The specific function to be called, including its name and arguments.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;function&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;function&#39;</span>
+    <span class="n">function</span><span class="p">:</span> <span class="n">Function</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes a ToolCall, supporting multiple input formats.</span>
+
+<span class="sd">        This custom initializer allows creating a ToolCall instance either from the standard</span>
+<span class="sd">        {&#39;function&#39;: {&#39;name&#39;: ..., &#39;arguments&#39;: ...}} structure or from a flatter</span>
+<span class="sd">        {&#39;name&#39;: ..., &#39;input_parameters&#39;: ...} structure by converting it internally.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            **data: The raw data for creating the ToolCall instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Handle both patterns in __init__</span>
+        <span class="k">if</span> <span class="s1">&#39;name&#39;</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">and</span> <span class="s1">&#39;input_parameters&#39;</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">and</span> <span class="s1">&#39;function&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="c1"># New pattern: convert to old pattern</span>
+            <span class="n">function</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span>
+                <span class="n">arguments</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;input_parameters&#39;</span><span class="p">))</span>
+            <span class="p">)</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;function&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">function</span>
+        
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Message">
+<a class="viewcode-back" href="../../../api.html#rebel.models.Message">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Message</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a single message in a conversational chain.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        role (RoleEnum): The role of the entity that produced the message.</span>
+<span class="sd">        content (str): The text content of the message.</span>
+<span class="sd">        tool_calls (Optional[List[ToolCall]]): A list of tool calls requested by the assistant.</span>
+<span class="sd">        tool_call_id (Optional[str]): The ID of the tool call this message is a response to.</span>
+<span class="sd">            This is used for messages with the &#39;tool&#39; role.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">role</span><span class="p">:</span> <span class="n">RoleEnum</span>
+    <span class="n">content</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">tool_calls</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">ToolCall</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">tool_call_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="AssistantInput">
+<a class="viewcode-back" href="../../../api.html#rebel.models.AssistantInput">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AssistantInput</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Defines the complete input for an assistant or language model.</span>
+
+<span class="sd">    This class bundles the conversational history with any API-specific parameters</span>
+<span class="sd">    needed for the model invocation.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        messages (List[Message]): The sequence of messages forming the conversation history.</span>
+<span class="sd">        api_params (Dict[str, Any]): A dictionary of parameters to be passed to the</span>
+<span class="sd">            model&#39;s API, such as temperature or max_tokens.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">messages</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Message</span><span class="p">]</span>
+    <span class="n">api_params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="AssistantOutput">
+<a class="viewcode-back" href="../../../api.html#rebel.models.AssistantOutput">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AssistantOutput</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents the output generated by an assistant after processing an input.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        output (Optional[str]): The primary text response from the assistant. Defaults to &#39;&#39;.</span>
+<span class="sd">        tools_called (Optional[List[ToolCall]]): A list of any tools or functions the</span>
+<span class="sd">            assistant decided to call. Defaults to an empty list.</span>
+<span class="sd">        context (Optional[List[str]]): Additional context information, such as retrieved</span>
+<span class="sd">            documents or sources used to generate the response. Defaults to an empty list.</span>
+<span class="sd">        execution_time (Optional[float]): The time in seconds it took to generate the output.</span>
+<span class="sd">            This is typically `None` when defining an expected output for a test case.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">tools_called</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">ToolCall</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">execution_time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># None for expected output</span></div>
+
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">REBEL</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started.html">Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Alexander Ploskin.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
