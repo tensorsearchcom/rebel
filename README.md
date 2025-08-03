@@ -12,11 +12,17 @@ REBEL enables developers to create robust evaluation pipelines for LLM applicati
 - **DeepEval Integration**: Seamless integration with the DeepEval ecosystem
 - **Comprehensive Results**: Detailed scoring with aggregation strategies and execution metadata
 
+## Documentation
+
+**For a complete guide, including tutorials and a full API reference, please see our official documentation:**
+
+[**http://tensorsearch.com/rebel/index.html**](http://tensorsearch.com/rebel/index.html)
+
 ## How to Use?
 
 ### Installation
 
-```bash
+```
 pip install rebel-eval[deepeval]
 ```
 
@@ -24,7 +30,7 @@ pip install rebel-eval[deepeval]
 
 Create your test files using REBEL's decorator pattern. See our [complete example](https://github.com/tensorsearchcom/rebel/example/openrouter/) for detailed implementation.
 
-```python
+```
 from rebel import test_case
 from rebel.models import Message, RoleEnum, TestGroup, RetryParams
 
@@ -45,12 +51,12 @@ def test_counting_accuracy():
 
 Execute your benchmark using the CLI:
 
-```bash
+```
 # Using configuration file
-rebel run --test-dir tests/ --output-folder results/ --api-config model_config.json
+rebel --test-dir tests/ --output-folder results/ --api-config model_config.json
 
 # Using custom client
-rebel run --test-dir tests/ --output-folder results/ \
+rebel --test-dir tests/ --output-folder results/ \
   --api-client-module my_module \
   --api-client-class MyAPIClient \
   --api-client-args '{"api_key": "your-key"}'
@@ -62,7 +68,7 @@ rebel run --test-dir tests/ --output-folder results/ \
 
 Create deterministic metrics by inheriting from the `Metric` base class:
 
-```python
+```
 from rebel.models import Metric, AssistantInput, AssistantOutput, EvaluationResult, EvaluationVerdict
 
 class MyCustomMetric(Metric):
@@ -90,7 +96,7 @@ REBEL provides several ready-to-use metrics:
 
 Example usage:
 
-```python
+```
 from rebel.metrics import ContextualFScore, ToolCallsAccuracy
 
 # RAG evaluation
@@ -114,8 +120,7 @@ tool_metric = ToolCallsAccuracy(
 
 Use the `@test_case` decorator to create comprehensive test suites. Our [test examples](https://github.com/tensorsearchcom/rebel/example/openrouter/openrouter/tests) show various patterns:
 
-
-```python
+```
 from rebel import test_case
 from rebel.models import Message, RoleEnum, TestGroup, RetryParams, ParameterGrid
 
@@ -123,7 +128,7 @@ from rebel.models import Message, RoleEnum, TestGroup, RetryParams, ParameterGri
     messages=[Message(role=RoleEnum.user, content="Test query")],
     tags=["accuracy", "basic"],
     api_params={"temperature": 0.7},
-    param_grid=ParameterGrid(parameters={"max_tokens": [100, 200, 500]})
+    param_grid=ParameterGrid(parameters={"max_tokens": })
 )
 def test_comprehensive_evaluation():
     # Multiple test groups with different configurations
@@ -151,10 +156,9 @@ def test_comprehensive_evaluation():
 
 ### Integrate DeepEval Metrics
 
-
 Extend `DeepevalMetric` to use DeepEval's advanced evaluation capabilities. Check out our [China Alignment Metric example](https://github.com/tensorsearchcom/rebel/example/openrouter/openrouter/metrics/china_alignment.py) for a complete implementation:
 
-```python
+```
 from rebel.deepeval.metric import DeepevalMetric
 from deepeval.metrics import GEval
 from deepeval.test_case import LLMTestCaseParams
@@ -184,7 +188,7 @@ class MyDeepevalMetric(DeepevalMetric):
 
 Configure your judge models using the DeepEval client:
 
-```python
+```
 from rebel.deepeval.client import OpenAIClientLLM
 
 judge_config = {
@@ -203,7 +207,7 @@ judge_llm = OpenAIClientLLM(judge_config)
 
 REBEL generates comprehensive JSON reports with detailed execution metadata:
 
-```json
+```
 {
   "metadata": {
     "timestamp": "20250722_113301",

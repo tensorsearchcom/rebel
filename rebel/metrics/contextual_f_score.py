@@ -13,51 +13,62 @@ from rebel.models import (
 
 
 class ContextualFScoreTemplate(ABC, BaseModel):
+    """Abstract base class for defining templates for the ContextualFScore metric."""
     @abstractmethod
-    def generate_claims(actual_output: str) -> str:
+    def generate_claims(self, actual_output: str) -> str:
+        """Generates a prompt to extract claims from the assistant's output."""
         pass
 
     @abstractmethod
-    def generate_truths(
-        retrieval_context: str, input_question: str
-    ) -> str:
+    def generate_truths(self, retrieval_context: List[str], input_question: str) -> str:
+        """Generates a prompt to extract ground truths from the retrieval context."""
         pass
     
     @abstractmethod
-    def generate_hallucination_verdicts(claims: List[str], retrieval_context: str) -> str:
+    def generate_hallucination_verdicts(self, claims: List[str], retrieval_context: List[str]) -> str:
+        """Generates a prompt to check for hallucinations in the claims."""
         pass
     
     @abstractmethod
-    def generate_completeness_verdicts(truths: List[str], claims: List[str]) -> str:
-        pass
-    
-    @abstractmethod
-    def generate_reason(score: float, contradictions: List[str]) -> str:
+    def generate_completeness_verdicts(self, truths: List[str], claims: List[str]) -> str:
+        """Generates a prompt to check for completeness of the claims against the truths."""
         pass
 
 
 class ContextualVerdict(BaseModel):
+    """Represents a single verdict on a claim."""
     verdict: Literal["yes", "idk", "dm", "no"]
     reason: Optional[str] = Field(default=None)
 
 
 class Verdicts(BaseModel):
+    """A list of contextual verdicts."""
     verdicts: List[ContextualVerdict]
 
 
 class Truths(BaseModel):
+    """A list of ground truth statements."""
     truths: List[str]
 
 
 class Claims(BaseModel):
+    """A list of claims extracted from an output."""
     claims: List[str]
 
 
-class Reason(BaseModel):
-    reason: str
-
-
 class ContextualFScore(Metric):
+    """A metric for evaluating RAG systems based on contextual precision and recall.
+
+    This metric calculates an F-score by assessing the completeness (recall) and
+    factual consistency (precision) of an assistant's response against a given context.
+
+    Attributes:
+        beta (float): The beta value for the F-score calculation, balancing precision and recall.
+        threshold (float): The minimum score required for a 'PASSED' verdict.
+        strict_mode (bool): If True, a score below the threshold results in a final score of 0.
+        model (OpenAIClientWrapper): The client for the judge LLM.
+        template (ContextualFScoreTemplate): The template for generating evaluation prompts.
+    """
     beta: float = Field(1.0)
     threshold: float = Field(0.7)
     strict_mode: bool = Field(True)
@@ -65,79 +76,44 @@ class ContextualFScore(Metric):
     template: ContextualFScoreTemplate
     
     
-    def measure(
-        self,
-        input: AssistantInput,
-        expected: AssistantOutput,
-        actual: AssistantOutput
-    ):
+    def measure(self, input: AssistantInput, expected: AssistantOutput, actual: AssistantOutput) -> EvaluationResult:
+        """Measures the contextual F-score of the assistant's output."""
         try:
-            truths_prompt = self.template.generate_truths(
-                retrieval_context=actual.context,
-                input_question=input.messages[-1]
-            )
-            truths = self.model.generate_instructed([{'user': truths_prompt}], Truths)
+            user_question = input.messages[-1].content
+            truths_prompt = self.template.generate_truths(retrieval_context=actual.context, input_question=user_question)
+            truths_obj = self.model.generate_instructed([{'role': 'user', 'content': truths_prompt}], Truths)
             
-            claims_prompt = self.template.generate_claims(
-                actual_output=actual.output
-            )
-            claims = self.model.generate_instructed([{'user': claims_prompt}], Claims)
+            claims_prompt = self.template.generate_claims(actual_output=actual.output)
+            claims_obj = self.model.generate_instructed([{'role': 'user', 'content': claims_prompt}], Claims)
             
-            hallucination_verdicts_prompt = self.template.generate_hallucination_verdicts(
-                claims=claims,
-                retrieval_context=actual.context
-            )
-            hallucination_verdicts = self.model.generate_instructed([{'user': hallucination_verdicts_prompt}], Verdicts)
+            hallucination_prompt = self.template.generate_hallucination_verdicts(claims=claims_obj.claims, retrieval_context=actual.context)
+            hallucination_verdicts = self.model.generate_instructed([{'role': 'user', 'content': hallucination_prompt}], Verdicts)
             
-            completeness_verdicts_prompt = self.template.generate_completeness_verdicts(
-                truths=truths,
-                claims=claims
-            )
-            completeness_verdicts = self.model.generate_instructed([{'user': completeness_verdicts_prompt}], Verdicts)
+            completeness_prompt = self.template.generate_completeness_verdicts(truths=truths_obj.truths, claims=claims_obj.claims)
+            completeness_verdicts = self.model.generate_instructed([{'role': 'user', 'content': completeness_prompt}], Verdicts)
             
-            scores = self._calculate_score(completeness_verdicts, hallucination_verdicts)
-            reason = (
-                f"Truths:\n{truths}",
-                f"Claims:\n{claims}",
-                f"Hallucination Verdicts:\n{hallucination_verdicts}",
-                f"Completeness Verdicts:\n{completeness_verdicts}",
-                f"Precision: {scores['precision']}",
-                f"Recall: {scores['recall']}",
-                f"F-Score: {scores['f_score']}",
-                f"Score: {scores['score']}",
-            )
+            scores = self._calculate_score(completeness_verdicts.verdicts, hallucination_verdicts.verdicts)
+            reason = f"Precision: {scores['precision']:.3f}, Recall: {scores['recall']:.3f}, F-Score: {scores['f_score']:.3f}"
             
-            return EvaluationResult(
-                score=scores['score'],
-                verdict=EvaluationVerdict.PASSED if scores['score'] >= self.threshold else EvaluationVerdict.FAILED,
-                reason=reason
-            )
+            return EvaluationResult(score=scores['score'], verdict=EvaluationVerdict.PASSED if scores['score'] >= self.threshold else EvaluationVerdict.FAILED, reason=reason)
         except Exception as e:
-            return EvaluationVerdict(
-                score=0.0,
-                verdict=EvaluationVerdict.ERROR,
-                reason=f'Error during evaluation: {str(e)}'
-            )
-            
+            return EvaluationResult(score=0.0, verdict=EvaluationVerdict.ERROR, reason=f'Error during evaluation: {str(e)}')
 
-    def _calculate_score(self, completeness_verdicts: Verdicts, hallucination_verdicts: Verdicts) -> Dict[str, float]:
-        # claims missed in actual output, but are in the relevant context (incompleteness)
-        false_negatives = sum(1 for verdict in completeness_verdicts if verdict.verdict.strip().lower() == 'no')
-        # claims shared both in the relevant context and in the actual output
-        true_positives = sum(1 for verdict in hallucination_verdicts if verdict.verdict.strip().lower() != 'no')
-        # claims from the actual output, but contradictive to context (hallucinations) 
-        false_positives = sum(1 for verdict in hallucination_verdicts if verdict.verdict.strip().lower() == 'no')
+
+    def _calculate_score(self, completeness_verdicts: List[ContextualVerdict], hallucination_verdicts: List[ContextualVerdict]) -> Dict[str, float]:
+        """Calculates precision, recall, and F-score from the verdicts."""
+        false_negatives = sum(1 for v in completeness_verdicts if v.verdict.strip().lower() == 'no')
+        true_positives = sum(1 for v in hallucination_verdicts if v.verdict.strip().lower() != 'no')
+        false_positives = sum(1 for v in hallucination_verdicts if v.verdict.strip().lower() == 'no')
         
-        precision = true_positives / (true_positives + false_positives)
-        recall = true_positives / (true_positives + false_negatives)
-        f_score = (1 + self.beta ** 2) * precision * recall / ((self.beta ** 2 * precision) + recall)
+        precision = true_positives / (true_positives + false_positives) if (true_positives + false_positives) > 0 else 0
+        recall = true_positives / (true_positives + false_negatives) if (true_positives + false_negatives) > 0 else 0
+        f_score = (1 + self.beta ** 2) * precision * recall / ((self.beta ** 2 * precision) + recall) if ((self.beta ** 2 * precision) + recall) > 0 else 0
 
-        return {
-            'precision': precision,
-            'recall': recall,
-            'f_score': f_score,
-            'score': 0 if self.strict_mode and f_score < self.threshold else f_score
-        }
+        final_score = 0 if self.strict_mode and f_score < self.threshold else f_score
+        return {'precision': precision, 'recall': recall, 'f_score': f_score, 'score': final_score}
 
-    def get_name(self):
+
+    def get_name(self) -> str:
+        """Returns the name of the metric."""
         return 'Contextual F-score'

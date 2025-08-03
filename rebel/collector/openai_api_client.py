@@ -1,20 +1,36 @@
 import time
-from typing import List, Optional
+from typing import List
 from rebel.models import (
     AssistantInput,
     AssistantOutput,
     Function,
-    ToolCall,
-    Message
+    ToolCall
 )
 from rebel.collector import APIClient
 
 
 class OpenAIAPIClient(APIClient):
-    """
-    Alternative client that uses the OpenAI SDK directly 
+    """An API client that interacts with an OpenAI-compatible API.
+
+    This client handles the conversion of REBEL's data models to the format
+    expected by the OpenAI SDK, manages streaming responses, and parses both
+    text content and tool calls.
+
+    Attributes:
+        model (str): The name of the model to use for the requests.
+        client (OpenAI): The synchronous OpenAI client instance.
     """
     def __init__(self, api_key: str, model: str, base_url: str):
+        """Initializes the OpenAIAPIClient.
+
+        Args:
+            api_key (str): The API key for authentication.
+            model (str): The model name (e.g., 'gpt-4').
+            base_url (str): The base URL of the API endpoint.
+        
+        Raises:
+            ImportError: If the `openai` package is not installed.
+        """
         try:
             from openai import OpenAI
         except ImportError:
@@ -27,38 +43,30 @@ class OpenAIAPIClient(APIClient):
         )
     
     def request(self, input: AssistantInput) -> AssistantOutput:
+        """Makes a streaming request to the OpenAI API.
+
+        This method constructs the request, handles the streaming response to
+        build up the output content and tool calls, and returns a structured
+        `AssistantOutput`.
+
+        Args:
+            input (AssistantInput): The input for the assistant.
+
+        Returns:
+            AssistantOutput: The structured output from the API call.
+        
+        Raises:
+            Exception: If the API request fails.
+        """
         start_time = time.time()
         actual_output = ""
         tools_called: List[ToolCall] = []
         context: List[str] = []
         
         # Convert messages to OpenAI format
-        messages = []
-        for message in input.messages:
-            msg_dict = {
-                "role": message.role.value,
-                "content": message.content
-            }
-            
-            if message.tool_calls:
-                msg_dict["tool_calls"] = [
-                    {
-                        "id": tc.id,
-                        "type": tc.type,
-                        "function": {
-                            "name": tc.function.name,
-                            "arguments": tc.function.arguments
-                        }
-                    }
-                    for tc in message.tool_calls
-                ]
-            
-            if message.tool_call_id:
-                msg_dict["tool_call_id"] = message.tool_call_id
-                
-            messages.append(msg_dict)
+        messages = [msg.model_dump(exclude_none=True) for msg in input.messages]
         
-        # Prepare request parameters
+        # Prepare request parameters, ensuring model is not duplicated
         request_params = {
             "model": self.model,
             "messages": messages,
@@ -76,48 +84,24 @@ class OpenAIAPIClient(APIClient):
                     choice = chunk.choices[0]
                     delta = choice.delta
                     
-                    # Handle content
                     if delta.content:
                         actual_output += delta.content
                     
-                    # Handle tool calls
                     if delta.tool_calls:
                         for tc_delta in delta.tool_calls:
                             tc_index = tc_delta.index if hasattr(tc_delta, 'index') else 0
                             
                             if tc_index not in current_tool_calls:
-                                current_tool_calls[tc_index] = {
-                                    "id": "",
-                                    "type": "function",
-                                    "function": {"name": "", "arguments": ""}
-                                }
+                                current_tool_calls[tc_index] = {"id": "", "type": "function", "function": {"name": "", "arguments": ""}}
                             
-                            if tc_delta.id:
-                                current_tool_calls[tc_index]["id"] = tc_delta.id
-                            
-                            if tc_delta.type:
-                                current_tool_calls[tc_index]["type"] = tc_delta.type
-                            
+                            if tc_delta.id: current_tool_calls[tc_index]["id"] = tc_delta.id
+                            if tc_delta.type: current_tool_calls[tc_index]["type"] = tc_delta.type
                             if tc_delta.function:
-                                if tc_delta.function.name:
-                                    current_tool_calls[tc_index]["function"]["name"] += tc_delta.function.name
-                                if tc_delta.function.arguments:
-                                    current_tool_calls[tc_index]["function"]["arguments"] += tc_delta.function.arguments
+                                if tc_delta.function.name: current_tool_calls[tc_index]["function"]["name"] += tc_delta.function.name
+                                if tc_delta.function.arguments: current_tool_calls[tc_index]["function"]["arguments"] += tc_delta.function.arguments
                     
-                    # Check if tool calls are complete
                     if choice.finish_reason == "tool_calls" and current_tool_calls:
-                        for tc_data in current_tool_calls.values():
-                            if tc_data["function"]["name"]:
-                                tools_called.append(
-                                    ToolCall(
-                                        id=tc_data["id"],
-                                        type=tc_data["type"],
-                                        function=Function(
-                                            name=tc_data["function"]["name"],
-                                            arguments=tc_data["function"]["arguments"]
-                                        )
-                                    )
-                                )
+                        tools_called = [ToolCall(**tc_data) for tc_data in current_tool_calls.values() if tc_data["function"]["name"]]
         
         except Exception as e:
             raise Exception(f"OpenAI API request failed: {str(e)}")

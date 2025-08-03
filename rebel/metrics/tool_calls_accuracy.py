@@ -5,209 +5,130 @@ from sklearn.metrics.pairwise import cosine_similarity
 import json
 from typing import Dict, Any, List
 
-
-from rebel.models import (
-    ToolCall,
-    Metric,
-    AssistantInput,
-    AssistantOutput,
-    EvaluationResult,
-    EvaluationVerdict,
-)
+from rebel.models import ToolCall, Metric, AssistantInput, AssistantOutput, EvaluationResult, EvaluationVerdict
 
 
 class ToolCallDistance(ABC, BaseModel):
+    """Abstract base class for calculating the distance/similarity between two tool calls."""
     @abstractmethod
     def measure(self, first_call: ToolCall, second_call: ToolCall) -> float:
+        """Measures the similarity between two tool calls, returning a score from 0.0 to 1.0."""
         pass
 
 
 class ExactMatchToolCallDistance(ToolCallDistance):
+    """A distance metric that requires an exact match of function names and arguments."""
     def measure(self, first_call: ToolCall, second_call: ToolCall) -> float:
-        # Compare both function name and arguments
-        if (first_call.function.name == second_call.function.name and 
-            first_call.function.arguments == second_call.function.arguments):
-            return 1.0
-        return 0.0
+        """Returns 1.0 if both function name and arguments match exactly, otherwise 0.0."""
+        return 1.0 if first_call.function == second_call.function else 0.0
 
 
 class Encoder(ABC, BaseModel):
+    """Abstract base class for text encoders used in similarity calculations."""
+    @abstractmethod
     def encode(self, texts: List[str]) -> np.ndarray:
+        """Encodes a list of texts into numerical vectors."""
         pass
 
 
 class CosineSimilarityToolCallDistance(ToolCallDistance):
-    encoder: Encoder = Field()
-    aggregation_method: str = Field(default="mean")  # "mean", "weighted_mean", "min", "max"
+    """A distance metric that uses cosine similarity to compare tool call arguments."""
+    encoder: Encoder
+    aggregation_method: str = Field(default="mean")
     
     def measure(self, first_call: ToolCall, second_call: ToolCall) -> float:
-        # First check if function names match
-        if first_call.function.name != second_call.function.name:
-            return 0.0
+        """Measures tool call similarity based on cosine similarity of their arguments."""
+        if first_call.function.name != second_call.function.name: return 0.0
         
-        # Get parameters dictionaries
         first_params = first_call.function.parse_arguments() or {}
         second_params = second_call.function.parse_arguments() or {}
         
-        # If both have no parameters, they're identical
-        if not first_params and not second_params:
-            return 1.0
+        if not first_params and not second_params: return 1.0
+        if not first_params or not second_params: return 0.0
         
-        # If only one has parameters, they're different
-        if not first_params or not second_params:
-            return 0.0
-        
-        # Compare each argument separately
-        argument_similarities = self._compare_arguments(first_params, second_params)
-        
-        # Aggregate the similarities
-        return self._aggregate_similarities(argument_similarities)
+        arg_sims = self._compare_arguments(first_params, second_params)
+        return self._aggregate_similarities(arg_sims)
     
-    
-    def _compare_arguments(self, first_params: Dict[str, Any], second_params: Dict[str, Any]) -> List[float]:
-        """Compare each argument separately using cosine similarity"""
+    def _compare_arguments(self, first_params: Dict, second_params: Dict) -> List[float]:
+        """Compares individual arguments using cosine similarity."""
         similarities = []
-        
-        # Get all unique argument names
         all_keys = set(first_params.keys()) | set(second_params.keys())
-        
         for key in all_keys:
-            first_value = first_params.get(key)
-            second_value = second_params.get(key)
-            
-            # If argument is missing in one of the calls
-            if first_value is None or second_value is None:
+            val1, val2 = first_params.get(key), second_params.get(key)
+            if val1 is None or val2 is None:
                 similarities.append(0.0)
                 continue
-            
-            # Convert values to text for encoding
-            first_text = self._value_to_text(key, first_value)
-            second_text = self._value_to_text(key, second_value)
-            
-            # Calculate cosine similarity for this argument
-            similarity = self._calculate_text_similarity(first_text, second_text)
-            similarities.append(similarity)
-        
+            text1, text2 = self._value_to_text(key, val1), self._value_to_text(key, val2)
+            similarities.append(self._calculate_text_similarity(text1, text2))
         return similarities
     
     def _value_to_text(self, key: str, value: Any) -> str:
-        """Convert argument value to text representation"""
-        if isinstance(value, (dict, list)):
-            value_str = json.dumps(value, sort_keys=True)
-        else:
-            value_str = str(value)
-        
+        """Converts an argument key-value pair to a string."""
+        value_str = json.dumps(value, sort_keys=True) if isinstance(value, (dict, list)) else str(value)
         return f"{key}: {value_str}"
     
     def _calculate_text_similarity(self, text1: str, text2: str) -> float:
-        """Calculate cosine similarity between two text strings"""
+        """Calculates cosine similarity between two strings."""
         try:
-            # Encode both texts
             vectors = self.encoder.encode([text1, text2])
-            
-            # Calculate cosine similarity
-            similarity = cosine_similarity([vectors[0]], [vectors[1]])[0][0]
-            
-            return float(similarity)
-        except Exception as e:
-            # Fallback to exact match if encoding fails
+            return float(cosine_similarity([vectors[0]], [vectors[1]])[0][0])
+        except Exception:
             return 1.0 if text1 == text2 else 0.0
     
     def _aggregate_similarities(self, similarities: List[float]) -> float:
-        """Aggregate individual argument similarities"""
-        if not similarities:
-            return 1.0
-        
-        similarities_array = np.array(similarities)
-        
-        if self.aggregation_method == "mean":
-            return float(np.mean(similarities_array))
-        elif self.aggregation_method == "weighted_mean":
-            # Give more weight to higher similarities
-            weights = similarities_array
-            if np.sum(weights) == 0:
-                return 0.0
-            return float(np.average(similarities_array, weights=weights))
-        elif self.aggregation_method == "min":
-            return float(np.min(similarities_array))
-        elif self.aggregation_method == "max":
-            return float(np.max(similarities_array))
-        else:
-            return float(np.mean(similarities_array))
+        """Aggregates a list of similarity scores into a single score."""
+        if not similarities: return 1.0
+        arr = np.array(similarities)
+        if self.aggregation_method == "mean": return float(np.mean(arr))
+        if self.aggregation_method == "min": return float(np.min(arr))
+        if self.aggregation_method == "max": return float(np.max(arr))
+        return float(np.mean(arr))
 
 
 class ToolCallsAccuracy(Metric):
-    distance: ToolCallDistance = Field(ExactMatchToolCallDistance())
+    """A metric to evaluate the accuracy of tool calls made by an assistant.
+
+    This metric compares the list of expected tool calls with the actual ones
+    using a configurable distance metric and a greedy matching algorithm.
+
+    Attributes:
+        distance (ToolCallDistance): The distance function to use for comparing tool calls.
+        threshold (float): The minimum score for a 'PASSED' verdict.
+        strict_mode (bool): If True, a mismatch in the number of tool calls results in a FAILED verdict.
+    """
+    distance: ToolCallDistance = Field(default_factory=ExactMatchToolCallDistance)
     threshold: float = Field(0.5)
-    include_reason: bool = Field(True)
     strict_mode: bool = Field(True)
     
-
-    @abstractmethod
-    def measure(
-        self,
-        input: AssistantInput,
-        expected: AssistantOutput,
-        actual: AssistantOutput
-    ) -> EvaluationResult:
+    def measure(self, input: AssistantInput, expected: AssistantOutput, actual: AssistantOutput) -> EvaluationResult:
+        """Measures the accuracy of the actual tool calls against the expected ones."""
         try:
-            expected_tool_calls = expected.tools_called
-            actual_tool_calls = actual.tools_called
+            expected_calls, actual_calls = expected.tools_called or [], actual.tools_called or []
+            if not expected_calls and not actual_calls:
+                return EvaluationResult(score=1.0, verdict=EvaluationVerdict.PASSED, reason='Perfect match: No tools were expected or called.')
             
-            if len(expected_tool_calls) == 0 and len(actual_tool_calls) == 0:
-                return EvaluationResult(
-                    score=1.0,
-                    verdict=EvaluationVerdict.PASSED,
-                    reason='No tools expected or called - perfect match'
-                )
+            if self.strict_mode and len(expected_calls) != len(actual_calls):
+                return EvaluationResult(score=0.0, verdict=EvaluationVerdict.FAILED, reason=f'Tool count mismatch: expected {len(expected_calls)}, got {len(actual_calls)}')
             
-            if len(expected_tool_calls) != len(actual_tool_calls) and self.strict_mode:
-                if self.strict_mode:
-                    return EvaluationVerdict(
-                        score=0.0,
-                        verdict=EvaluationVerdict.FAILED,
-                        reason=f'Tool count mismatch: expected {len(expected_tool_calls)}, got {len(actual_tool_calls)}'
-                    )
+            sim_matrix = [[self.distance.measure(e, a) for a in actual_calls] for e in expected_calls]
             
-            similarities = []
-            for expected_tool in expected_tool_calls:
-                row_similarities = []
-                for actual_tool in actual_tool_calls:
-                    similarity = self.distance.measure(expected_tool, actual_tool)
-                    row_similarities.append(similarity)
-                similarities.append(row_similarities)
-            
-            # Use greedy matching algorithm
-            total_simiarity = 0.0
-            used_actual_indices = set()
-            
-            for i, expected_tool in enumerate(expected_tool_calls):
-                best_similarity = 0.0
-                best_j = -1
-                
-                for j, actual_tool in enumerate(actual_tool_calls):
-                    if j in used_actual_indices:
-                        continue # aready matched
-                    
-                    similarity = similarities[i][j] # expected i to actual j
-                    if similarity > best_similarity:
-                        best_similarity = similarity
-                        best_j = j
-                
-                # -1 if already matched all actual calls (non-strict mode)
+            # Greedy matching
+            total_similarity, used_indices = 0.0, set()
+            for i, row in enumerate(sim_matrix):
+                best_sim, best_j = -1.0, -1
+                for j, sim in enumerate(row):
+                    if j not in used_indices and sim > best_sim:
+                        best_sim, best_j = sim, j
                 if best_j != -1:
-                    used_actual_indices.add(best_j)
-                    total_simiarity += best_similarity
+                    total_similarity += best_sim
+                    used_indices.add(best_j)
             
-            score = total_simiarity / max(len(expected_tool_calls), len(actual_tool_calls))
-            return EvaluationResult(
-                score=score,
-                verdict=EvaluationVerdict.PASSED if score >= self.threshold else EvaluationVerdict.FAILED,
-                reason=f'Tool calls similarity score: {self.score:.3f}\nExpected: {[f"{t.name}({t.input_parameters})" for t in expected_tool_calls]}\nActual: {[f"{t.name}({t.input_parameters})" for t in actual_tool_calls]}'
-            )
+            score = total_similarity / max(len(expected_calls), len(actual_calls)) if max(len(expected_calls), len(actual_calls)) > 0 else 1.0
+            reason = f'Tool calls similarity score: {score:.3f}'
+            return EvaluationResult(score=score, verdict=EvaluationVerdict.PASSED if score >= self.threshold else EvaluationVerdict.FAILED, reason=reason)
         except Exception as e:
-            return EvaluationVerdict(
-                score=0.0,
-                verdict=EvaluationVerdict.ERROR,
-                reason=f'Error during evaluation: {str(e)}'
-            )
+            return EvaluationResult(score=0.0, verdict=EvaluationVerdict.ERROR, reason=f'Error during evaluation: {str(e)}')
+            
+    def get_name(self) -> str:
+        """Returns the name of the metric."""
+        return "Tool Calls Accuracy"
