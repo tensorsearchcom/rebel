@@ -1,0 +1,54 @@
+.. _results:
+
+#######
+Results
+#######
+
+REBEL generates a comprehensive JSON report for each benchmark run, allowing for detailed investigation and analysis.
+
+Result Analysis Features
+========================
+
+- **Individual Attempt Tracking**: Complete execution history for each retry.
+- **Aggregated Scores**: Statistical summaries based on your configured aggregation strategy.
+- **Execution Metadata**: Performance metrics including response times.
+- **Detailed Reasoning**: Comprehensive failure analysis and success explanations from metrics.
+- **Structured Output**: Machine-readable JSON format for automated processing.
+
+Example Report
+==============
+
+Results are automatically organized by model name and timestamp. Below is a simplified example of the JSON output structure.
+
+.. code-block:: json
+
+   {
+     "metadata": {
+       "timestamp": "20250722_113301",
+       "total_test_cases": 18
+     },
+     "test_cases": [
+       {
+         "name": "test_example_[]",
+         "actual_outputs": [
+           {
+             "output": "Response text",
+             "execution_time": 0.625
+           }
+         ],
+         "evaluation_results": [
+           {
+             "score": 0.85,
+             "verdict": "passed",
+             "reason": "High quality response"
+           }
+         ],
+         "aggregated_result": {
+           "score": 0.85,
+           "verdict": "passed"
+         }
+       }
+     ]
+   }
+
+For more details on the output format, you can refer to the data models in the :ref:`api-reference`, such as :class:`~rebel.models.evaluation.TestCaseEvaluated`.

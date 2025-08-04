@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>REBEL documentation &#8212; REBEL 0.1.0 documentation</title>
+    <title>REBEL Framework &#8212; REBEL 0.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
     <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
@@ -14,7 +14,7 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Get Started" href="get_started.html" />
+    <link rel="next" title="Installation" href="installation.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -32,21 +32,56 @@
 
           <div class="body" role="main">
             
-  <section id="rebel-documentation">
-<h1>REBEL documentation<a class="headerlink" href="#rebel-documentation" title="Link to this heading">¶</a></h1>
+  <section id="rebel-framework">
+<h1>REBEL Framework<a class="headerlink" href="#rebel-framework" title="Link to this heading">¶</a></h1>
+<p><strong>REBEL</strong> is a powerful evaluation framework for Large Language Model (LLM) assistants that provides comprehensive benchmarking capabilities with support for both deterministic and AI-judge based metrics.</p>
+<p>This documentation will guide you through installing REBEL, defining tests, running benchmarks, and interpreting the results.</p>
 <div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="get_started.html">Get Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="get_started.html#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="get_started.html#a-simple-example">A Simple Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html#define-your-tests">1. Define Your Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html#run-your-benchmarks">2. Run Your Benchmarks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html#analyze-the-results">3. Analyze the Results</a></li>
 </ul>
 </li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Core Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="defining_tests.html">Defining Tests</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="defining_tests.html#core-features">Core Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="defining_tests.html#comprehensive-example">Comprehensive Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="metrics.html">Metrics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="metrics.html#implement-a-custom-metric">Implement a Custom Metric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="metrics.html#built-in-rebel-metrics">Built-in REBEL Metrics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="deepeval_integration.html">DeepEval Integration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="deepeval_integration.html#using-deepeval-metrics">Using DeepEval Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deepeval_integration.html#configuring-the-judge-model">Configuring the Judge Model</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="results.html">Results</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="results.html#result-analysis-features">Result Analysis Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="results.html#example-report">Example Report</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#test-definition-execution">Test Definition &amp; Execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#core-data-models">Core Data Models</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#test-configuration-models">Test Configuration Models</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#test-execution-flow">Test Execution Flow</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#evaluation-and-metrics">Evaluation and Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#evaluation-metrics">Evaluation &amp; Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#deepeval-integration">DeepEval Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#api-clients-utilities">API Clients &amp; Utilities</a></li>
 </ul>
 </li>
 </ul>
@@ -79,9 +114,20 @@
     </div>
 </search>
 <script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="get_started.html">Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Core Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="defining_tests.html">Defining Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metrics.html">Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deepeval_integration.html">DeepEval Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="results.html">Results</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
 </ul>
 
@@ -89,7 +135,7 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="#">Documentation overview</a><ul>
-      <li>Next: <a href="get_started.html" title="next chapter">Get Started</a></li>
+      <li>Next: <a href="installation.html" title="next chapter">Installation</a></li>
   </ul></li>
 </ul>
 </div>

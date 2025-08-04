@@ -1,0 +1,60 @@
+.. _metrics:
+
+#######
+Metrics
+#######
+
+REBEL supports a wide range of evaluation metrics, from simple rule-based checks to sophisticated AI-judged evaluations.
+
+Implement a Custom Metric
+=========================
+
+You can create your own deterministic metric by inheriting from the :class:`~rebel.models.metric.Metric` base class and implementing the ``measure`` and ``get_name`` methods.
+
+.. code-block:: python
+
+   from rebel.models import Metric, AssistantInput, AssistantOutput, EvaluationResult, EvaluationVerdict
+
+   class MyCustomMetric(Metric):
+       def measure(self, input: AssistantInput, expected: AssistantOutput, actual: AssistantOutput) -> EvaluationResult:
+           # Your evaluation logic here
+           score = compute_score(actual.output, expected.output)
+           
+           return EvaluationResult(
+               score=score,
+               verdict=EvaluationVerdict.PASSED if score > 0.5 else EvaluationVerdict.FAILED,
+               reason=f"Score: {score}"
+           )
+       
+       def get_name(self) -> str:
+           return "My Custom Metric"
+
+Built-in REBEL Metrics
+======================
+
+REBEL also provides several ready-to-use metrics for common evaluation tasks.
+
+- **ContextualFScore**: For RAG evaluation with precision and recall analysis.
+- **ToolCallsAccuracy**: For function calling evaluation with flexible matching rules.
+- **Custom Distance Metrics**: For configurable similarity measurements.
+
+Example Usage
+-------------
+
+.. code-block:: python
+
+   from rebel.metrics import ContextualFScore, ToolCallsAccuracy
+
+   # RAG evaluation metric
+   contextual_metric = ContextualFScore(
+       beta=1.0,
+       threshold=0.7,
+       model=your_judge_model,
+       template=your_template
+   )
+
+   # Tool calling evaluation metric
+   tool_metric = ToolCallsAccuracy(
+       threshold=0.8,
+       strict_mode=True
+   )
