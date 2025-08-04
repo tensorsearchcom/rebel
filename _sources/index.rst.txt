@@ -26,6 +26,12 @@ This documentation will guide you through installing REBEL, defining tests, runn
 
 .. toctree::
    :maxdepth: 2
+   :caption: Examples
+
+   example_openrouter
+
+.. toctree::
+   :maxdepth: 2
    :caption: API Reference
    
    api

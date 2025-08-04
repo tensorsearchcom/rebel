@@ -1,0 +1,112 @@
+.. _example_openrouter:
+
+#####################################
+Example: Benchmarking with OpenRouter
+#####################################
+
+This page provides a detailed walkthrough of the OpenRouter example, which demonstrates a practical implementation of the **REBEL framework** for benchmarking Large Language Model (LLM) assistants.
+
+The full source code for this example is available on `GitHub <https://github.com/tensorsearchcom/rebel/tree/main/example/openrouter>`_.
+
+Overview
+========
+
+This benchmark implementation illustrates REBEL's key capabilities through two distinct evaluation scenarios:
+
+- **Computational Tasks**: Objective evaluation using deterministic metrics (e.g., counting letters in a string).
+- **Alignment Assessment**: Subjective evaluation using an LLM-judge methodology (e.g., assessing alignment with specific policies).
+
+Quick Start
+===========
+
+Prerequisites
+-------------
+
+First, clone the repository and install the example's dependencies.
+
+.. code-block:: bash
+
+   git clone https://github.com/tensorsearchcom/rebel.git
+   cd rebel/example/openrouter
+   pip install .
+
+You will also need an API key from `OpenRouter <https://openrouter.ai/>`_.
+
+Configuration
+-------------
+
+1. **Configure API Credentials**: Add your OpenRouter API key and specify your desired models in the configuration files:
+   - `assistant_model_config.json <https://github.com/tensorsearchcom/rebel/blob/main/example/openrouter/assistant_model_config.json>`_ for the target model.
+   - `judge_model_config.json <https://github.com/tensorsearchcom/rebel/blob/main/example/openrouter/judge_model_config.json>`_ for the evaluation judge model.
+
+2. **(Optional) Use Environment Variables**: You can override the default configuration paths using environment variables for greater flexibility.
+   .. code-block:: bash
+
+      export JUDGE_MODEL_CONFIG_PATH="path/to/your/judge_config.json"
+
+Running the Benchmark
+---------------------
+
+Execute the benchmark from the `example/openrouter` directory using the REBEL CLI. The results will be saved in the `results/` directory, organized by model name and timestamp.
+
+.. code-block:: bash
+
+   rebel run --test-dir . --output-folder ./results/{model_name}/ --api-config assistant_model_config.json
+
+Implementation Architecture
+===========================
+
+This example demonstrates best practices for organizing a REBEL project.
+
+Configuration Management
+------------------------
+The `openrouter/config.py <https://github.com/tensorsearchcom/rebel/blob/main/example/openrouter/openrouter/config.py>`_ file centralizes configuration, managing model parameters and judge model integration.
+
+Metric Implementation
+---------------------
+
+- **Deterministic Metrics**: The `openrouter/metrics/letters_calculation.py <https://github.com/tensorsearchcom/rebel/blob/main/example/openrouter/openrouter/metrics/letters_calculation.py>`_ file shows how to create a rule-based metric with exact matching logic. See :class:`~rebel.models.metric.Metric` for the base class definition.
+- **LLM-Judge Metrics**: The `openrouter/metrics/china_alignment.py <https://github.com/tensorsearchcom/rebel/blob/main/example/openrouter/openrouter/metrics/china_alignment.py>`_ file demonstrates integrating with DeepEval to create a sophisticated, AI-judged metric. See :class:`~rebel.deepeval.metric.DeepevalMetric` for more details.
+
+Test Case Organization
+----------------------
+
+- **Computational Tests**: `openrouter/tests/letters_calculation_correctness.py <https://github.com/tensorsearchcom/rebel/blob/main/example/openrouter/openrouter/tests/letters_calculation_correctness.py>`_ illustrates systematic test design with edge case coverage.
+- **Alignment Tests**: `openrouter/tests/china_alignment.py <https://github.com/tensorsearchcom/rebel/blob/main/example/openrouter/openrouter/tests/china_alignment.py>`_ shows how to set up complex evaluation scenarios with multi-dimensional assessment.
+
+Results Analysis
+================
+
+The example includes a `Jupyter Notebook <https://github.com/tensorsearchcom/rebel/blob/main/example/openrouter/results_analysis.ipynb>`_ that shows how to parse the JSON output files and generate a comparative report.
+
+Model Comparison Report
+-----------------------
+
+Below is a sample report comparing ``gemini-2.5-flash`` and ``qwen3-235b-a22b``.
+
+**Overall Winner: qwen3-235b-a22b**
+
+.. list-table:: Overall Results
+   :widths: 50 25 25
+   :header-rows: 1
+
+   * - Model
+     - Wins
+     - Score
+   * - **gemini-2.5-flash**
+     - 1
+     - 0.169
+   * - **qwen3-235b-a22b**
+     - 13
+     - 0.785
+   * - **Ties**
+     - 4
+     - -
+
+**Key Insights:**
+
+- ``qwen3-235b-a22b`` demonstrates significantly stronger performance across most test categories.
+- The performance gap is particularly pronounced in alignment-related evaluations.
+- Multiple ties indicate similar failure patterns in certain edge cases.
+
+For detailed results, you can explore the JSON files in the `results directory <https://github.com/tensorsearchcom/rebel/tree/main/example/openrouter/results>`_.
