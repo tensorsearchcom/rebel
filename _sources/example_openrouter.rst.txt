@@ -51,7 +51,7 @@ Execute the benchmark from the `example/openrouter` directory using the REBEL CL
 
 .. code-block:: bash
 
-   rebel run --test-dir . --output-folder ./results/{model_name}/ --api-config assistant_model_config.json
+   rebel --test-dir . --output-folder ./results/{model_name}/ --api-config assistant_model_config.json
 
 Implementation Architecture
 ===========================
