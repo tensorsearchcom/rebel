@@ -5,11 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Metrics &#8212; REBEL 0.1.0 documentation</title>
+    <title>Metrics &#8212; REBEL 0.2.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
     <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
-    <script src="_static/documentation_options.js?v=01f34227"></script>
+    <script src="_static/documentation_options.js?v=938c9ccc"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -35,56 +35,224 @@
             
   <section id="metrics">
 <span id="id1"></span><h1>Metrics<a class="headerlink" href="#metrics" title="Link to this heading">¶</a></h1>
-<p>REBEL supports a wide range of evaluation metrics, from simple rule-based checks to sophisticated AI-judged evaluations.</p>
+<p>REBEL supports a wide range of evaluation metrics, from simple rule-based checks to sophisticated AI-judged evaluations. This guide covers how to use built-in metrics and how to create your own.</p>
+<p>For a complete list of all metric-related classes and their parameters, please refer to the <a class="reference internal" href="api.html#api-reference"><span class="std std-ref">API Reference</span></a>.</p>
 <section id="implement-a-custom-metric">
 <h2>Implement a Custom Metric<a class="headerlink" href="#implement-a-custom-metric" title="Link to this heading">¶</a></h2>
-<p>You can create your own deterministic metric by inheriting from the <a class="reference internal" href="api.html#rebel.models.metric.Metric" title="rebel.models.metric.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">Metric</span></code></a> base class and implementing the <code class="docutils literal notranslate"><span class="pre">measure</span></code> and <code class="docutils literal notranslate"><span class="pre">get_name</span></code> methods.</p>
+<p>You can create your own deterministic metric by inheriting from the abstract base class <a class="reference internal" href="api.html#rebel.models.metric.Metric" title="rebel.models.metric.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">Metric</span></code></a> and implementing two methods:</p>
+<ol class="arabic simple">
+<li><p><strong>`measure()`</strong>: Contains your core evaluation logic.</p></li>
+<li><p><strong>`get_name()`</strong>: Returns a unique, human-readable name for your metric.</p></li>
+</ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rebel.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Metric</span><span class="p">,</span> <span class="n">AssistantInput</span><span class="p">,</span> <span class="n">AssistantOutput</span><span class="p">,</span> <span class="n">EvaluationResult</span><span class="p">,</span> <span class="n">EvaluationVerdict</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">MyCustomMetric</span><span class="p">(</span><span class="n">Metric</span><span class="p">):</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">measure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">AssistantInput</span><span class="p">,</span> <span class="n">expected</span><span class="p">:</span> <span class="n">AssistantOutput</span><span class="p">,</span> <span class="n">actual</span><span class="p">:</span> <span class="n">AssistantOutput</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EvaluationResult</span><span class="p">:</span>
-        <span class="c1"># Your evaluation logic here</span>
-        <span class="n">score</span> <span class="o">=</span> <span class="n">compute_score</span><span class="p">(</span><span class="n">actual</span><span class="o">.</span><span class="n">output</span><span class="p">,</span> <span class="n">expected</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A simple metric that checks if the output contains a specific keyword.&quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="n">EvaluationResult</span><span class="p">(</span>
-            <span class="n">score</span><span class="o">=</span><span class="n">score</span><span class="p">,</span>
-            <span class="n">verdict</span><span class="o">=</span><span class="n">EvaluationVerdict</span><span class="o">.</span><span class="n">PASSED</span> <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="k">else</span> <span class="n">EvaluationVerdict</span><span class="o">.</span><span class="n">FAILED</span><span class="p">,</span>
-            <span class="n">reason</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Score: </span><span class="si">{</span><span class="n">score</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keyword</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keyword</span> <span class="o">=</span> <span class="n">keyword</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">measure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">AssistantInput</span><span class="p">,</span> <span class="n">expected</span><span class="p">:</span> <span class="n">AssistantOutput</span><span class="p">,</span> <span class="n">actual</span><span class="p">:</span> <span class="n">AssistantOutput</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EvaluationResult</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">keyword</span> <span class="ow">in</span> <span class="n">actual</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">EvaluationResult</span><span class="p">(</span>
+                <span class="n">score</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                <span class="n">verdict</span><span class="o">=</span><span class="n">EvaluationVerdict</span><span class="o">.</span><span class="n">PASSED</span><span class="p">,</span>
+                <span class="n">reason</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Successfully found the keyword &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">keyword</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">EvaluationResult</span><span class="p">(</span>
+                <span class="n">score</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                <span class="n">verdict</span><span class="o">=</span><span class="n">EvaluationVerdict</span><span class="o">.</span><span class="n">FAILED</span><span class="p">,</span>
+                <span class="n">reason</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;The keyword &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">keyword</span><span class="si">}</span><span class="s2">&#39; was not found in the output.&quot;</span>
+            <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;My Custom Metric&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;KeywordMatch (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">keyword</span><span class="si">}</span><span class="s2">)&quot;</span>
 </pre></div>
 </div>
 </section>
 <section id="built-in-rebel-metrics">
 <h2>Built-in REBEL Metrics<a class="headerlink" href="#built-in-rebel-metrics" title="Link to this heading">¶</a></h2>
-<p>REBEL also provides several ready-to-use metrics for common evaluation tasks.</p>
-<ul class="simple">
-<li><p><strong>ContextualFScore</strong>: For RAG evaluation with precision and recall analysis.</p></li>
-<li><p><strong>ToolCallsAccuracy</strong>: For function calling evaluation with flexible matching rules.</p></li>
-<li><p><strong>Custom Distance Metrics</strong>: For configurable similarity measurements.</p></li>
-</ul>
-<section id="example-usage">
-<h3>Example Usage<a class="headerlink" href="#example-usage" title="Link to this heading">¶</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rebel.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContextualFScore</span><span class="p">,</span> <span class="n">ToolCallsAccuracy</span>
+<p>REBEL provides several powerful, ready-to-use metrics for common evaluation tasks.</p>
+<section id="contextualfscore">
+<h3>ContextualFScore<a class="headerlink" href="#contextualfscore" title="Link to this heading">¶</a></h3>
+<p>The <a class="reference internal" href="api.html#rebel.metrics.contextual_f_score.ContextualFScore" title="rebel.metrics.contextual_f_score.ContextualFScore"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContextualFScore</span></code></a> metric is designed for <strong>RAG (Retrieval-Augmented Generation)</strong> evaluation. It uses an LLM judge to assess the factual consistency (precision) and completeness (recall) of an assistant’s response against a provided context.</p>
+<p><strong>How it works:</strong>
+1.  It breaks down the model’s output into a list of “claims.”
+2.  It compares these claims against the ground truths found in the retrieval context.
+3.  It calculates precision (to penalize hallucinations) and recall (to penalize incompleteness), then combines them into a final F-score.</p>
+<p><strong>Example Usage:</strong></p>
+<p>This metric requires a <cite>model</cite> (a judge LLM) and a <cite>template</cite> that provides the prompts for the evaluation steps.</p>
+<p><strong>Step 1: Configure Your Judge LLM</strong></p>
+<p>First, set up the client for the LLM that will perform the evaluation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rebel.utils.openai_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAIClientWrapper</span>
 
-<span class="c1"># RAG evaluation metric</span>
-<span class="n">contextual_metric</span> <span class="o">=</span> <span class="n">ContextualFScore</span><span class="p">(</span>
-    <span class="n">beta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+<span class="n">judge_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="s2">&quot;gpt-4&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;api_key&quot;</span><span class="p">:</span> <span class="s2">&quot;YOUR_JUDGE_API_KEY&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;base_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://api.openai.com/v1&quot;</span>
+<span class="p">}</span>
+<span class="n">judge_model</span> <span class="o">=</span> <span class="n">OpenAIClientWrapper</span><span class="p">(</span><span class="n">judge_config</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Step 2: Define a Prompt Template</strong></p>
+<p>The core of this metric is the prompt template. You must create a class that inherits from <a class="reference internal" href="api.html#rebel.metrics.contextual_f_score.ContextualFScoreTemplate" title="rebel.metrics.contextual_f_score.ContextualFScoreTemplate"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContextualFScoreTemplate</span></code></a> and implements its four abstract methods. Each method should return a string that will be used as a prompt for the judge LLM.</p>
+<p>Here is an example of a custom template:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rebel.metrics.contextual_f_score</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContextualFScoreTemplate</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyRAGTemplate</span><span class="p">(</span><span class="n">ContextualFScoreTemplate</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A custom template with prompts for RAG evaluation.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_claims</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actual_output</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Deconstruct the following text into a list of simple, self-contained, factual claims.</span>
+
+<span class="s2">        Text:</span>
+<span class="s2">        </span><span class="si">{</span><span class="n">actual_output</span><span class="si">}</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_truths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">retrieval_context</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">input_question</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">context_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">retrieval_context</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Based on the provided context, extract a list of key facts that are directly relevant to answering the following question.</span>
+
+<span class="s2">        Question: </span><span class="si">{</span><span class="n">input_question</span><span class="si">}</span>
+<span class="s2">        Context: </span><span class="si">{</span><span class="n">context_str</span><span class="si">}</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_hallucination_verdicts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">claims</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">retrieval_context</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">claims_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">])</span>
+        <span class="n">context_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">retrieval_context</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        For each claim below, verify if it is supported by the provided context. Respond with only &#39;yes&#39; if it is supported, or &#39;no&#39; if it contradicts the context.</span>
+
+<span class="s2">        Context: </span><span class="si">{</span><span class="n">context_str</span><span class="si">}</span>
+
+<span class="s2">        Claims to Verify:</span>
+<span class="s2">        </span><span class="si">{</span><span class="n">claims_str</span><span class="si">}</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_completeness_verdicts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">truths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">claims</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">truths_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">truths</span><span class="p">])</span>
+        <span class="n">claims_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">])</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        For each ground truth statement below, determine if it is fully covered by the list of claims. Respond with &#39;yes&#39; if it is covered, or &#39;no&#39; if it is not.</span>
+
+<span class="s2">        Ground Truths:</span>
+<span class="s2">        </span><span class="si">{</span><span class="n">truths_str</span><span class="si">}</span>
+
+<span class="s2">        Claims:</span>
+<span class="s2">        </span><span class="si">{</span><span class="n">claims_str</span><span class="si">}</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p><strong>Step 3: Instantiate the Metric</strong></p>
+<p>Finally, create an instance of <cite>ContextualFScore</cite>, passing in your judge model and your custom template.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rebel.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContextualFScore</span>
+
+<span class="c1"># Use the template defined in Step 2</span>
+<span class="n">my_template</span> <span class="o">=</span> <span class="n">MyRAGTemplate</span><span class="p">()</span>
+
+<span class="c1"># Instantiate the metric</span>
+<span class="n">rag_metric</span> <span class="o">=</span> <span class="n">ContextualFScore</span><span class="p">(</span>
+    <span class="n">beta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>  <span class="c1"># Balances precision and recall. 1.0 gives them equal weight.</span>
     <span class="n">threshold</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
-    <span class="n">model</span><span class="o">=</span><span class="n">your_judge_model</span><span class="p">,</span>
-    <span class="n">template</span><span class="o">=</span><span class="n">your_template</span>
-<span class="p">)</span>
-
-<span class="c1"># Tool calling evaluation metric</span>
-<span class="n">tool_metric</span> <span class="o">=</span> <span class="n">ToolCallsAccuracy</span><span class="p">(</span>
-    <span class="n">threshold</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
-    <span class="n">strict_mode</span><span class="o">=</span><span class="kc">True</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">judge_model</span><span class="p">,</span>
+    <span class="n">template</span><span class="o">=</span><span class="n">my_template</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 </section>
+<section id="toolcallsaccuracy">
+<h3>ToolCallsAccuracy<a class="headerlink" href="#toolcallsaccuracy" title="Link to this heading">¶</a></h3>
+<p>The <a class="reference internal" href="api.html#rebel.metrics.tool_calls_accuracy.ToolCallsAccuracy" title="rebel.metrics.tool_calls_accuracy.ToolCallsAccuracy"><code class="xref py py-class docutils literal notranslate"><span class="pre">ToolCallsAccuracy</span></code></a> metric evaluates the accuracy of function/tool calls made by an assistant. It compares the list of expected tool calls with the actual ones using a configurable distance metric.</p>
+<p><strong>How it works:</strong>
+1.  It takes the list of expected and actual tool calls.
+2.  It uses a greedy matching algorithm to pair the most similar expected and actual calls.
+3.  The similarity between each pair is calculated using a specified <strong>distance</strong> function (e.g., exact match or cosine similarity).</p>
+<p><strong>Example Usage:</strong></p>
+<p>By default, this metric performs an exact match on the function name and arguments.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rebel.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolCallsAccuracy</span><span class="p">,</span> <span class="n">ExactMatchToolCallDistance</span>
+
+<span class="c1"># Simple usage with default exact matching</span>
+<span class="n">exact_match_metric</span> <span class="o">=</span> <span class="n">ToolCallsAccuracy</span><span class="p">(</span>
+    <span class="n">threshold</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+    <span class="n">strict_mode</span><span class="o">=</span><span class="kc">True</span>  <span class="c1"># Fails if the number of tool calls doesn&#39;t match</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>For more nuanced comparisons, you can use the <a class="reference internal" href="api.html#rebel.metrics.tool_calls_accuracy.CosineSimilarityToolCallDistance" title="rebel.metrics.tool_calls_accuracy.CosineSimilarityToolCallDistance"><code class="xref py py-class docutils literal notranslate"><span class="pre">CosineSimilarityToolCallDistance</span></code></a>, which requires a text encoder.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rebel.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolCallsAccuracy</span><span class="p">,</span> <span class="n">CosineSimilarityToolCallDistance</span><span class="p">,</span> <span class="n">Encoder</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># 1. Provide an encoder class (e.g., using sentence-transformers)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MySentenceTransformerEncoder</span><span class="p">(</span><span class="n">Encoder</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">sentence_transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">SentenceTransformer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">SentenceTransformer</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">texts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+
+<span class="c1"># 2. Instantiate the distance metric with your encoder</span>
+<span class="n">cosine_distance</span> <span class="o">=</span> <span class="n">CosineSimilarityToolCallDistance</span><span class="p">(</span>
+    <span class="n">encoder</span><span class="o">=</span><span class="n">MySentenceTransformerEncoder</span><span class="p">(</span><span class="s2">&quot;all-MiniLM-L6-v2&quot;</span><span class="p">),</span>
+    <span class="n">aggregation_method</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># 3. Instantiate the main metric with the custom distance</span>
+<span class="n">semantic_tool_metric</span> <span class="o">=</span> <span class="n">ToolCallsAccuracy</span><span class="p">(</span>
+    <span class="n">distance</span><span class="o">=</span><span class="n">cosine_distance</span><span class="p">,</span>
+    <span class="n">threshold</span><span class="o">=</span><span class="mf">0.85</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="deepeval-integration">
+<h2>DeepEval Integration<a class="headerlink" href="#deepeval-integration" title="Link to this heading">¶</a></h2>
+<p>REBEL offers seamless integration with the <a class="reference external" href="https://github.com/confident-ai/deepeval">DeepEval</a> framework, allowing you to use any of its advanced, AI-judged metrics in your benchmarks.</p>
+<p>To use a DeepEval metric, you simply need to wrap it in a class that inherits from <code class="xref py py-class docutils literal notranslate"><span class="pre">DeepevalMetric</span></code>.</p>
+<p><strong>How it works:</strong>
+1.  Create a class that inherits from <cite>DeepevalMetric</cite>.
+2.  Implement the <cite>get_deepeval_metric()</cite> method to return an instance of the DeepEval metric you want to use (e.g., <cite>AnswerRelevancy</cite>, <cite>GEval</cite>).
+3.  REBEL handles the conversion between its data format and DeepEval’s <cite>LLMTestCase</cite> automatically.</p>
+<p><strong>Example Usage (wrapping `AnswerRelevancy`):</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rebel.deepeval.metric</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeepevalMetric</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rebel.deepeval.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAIClientLLM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deepeval.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnswerRelevancy</span>
+
+<span class="c1"># 1. Configure your judge LLM</span>
+<span class="n">judge_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="s2">&quot;gpt-4&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;api_key&quot;</span><span class="p">:</span> <span class="s2">&quot;YOUR_JUDGE_API_KEY&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;base_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://api.openai.com/v1&quot;</span>
+<span class="p">}</span>
+<span class="n">judge_llm</span> <span class="o">=</span> <span class="n">OpenAIClientLLM</span><span class="p">(</span><span class="n">judge_config</span><span class="p">)</span>
+
+<span class="c1"># 2. Create your wrapper class</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AnswerRelevancyMetric</span><span class="p">(</span><span class="n">DeepevalMetric</span><span class="p">):</span>
+    <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.8</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Answer Relevancy (DeepEval)&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_deepeval_metric</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Return an instance of the DeepEval metric</span>
+        <span class="k">return</span> <span class="n">AnswerRelevancy</span><span class="p">(</span>
+            <span class="n">threshold</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">threshold</span><span class="p">,</span>
+            <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">judge_llm</span><span class="p">,</span>
+            <span class="n">include_reason</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+<span class="c1"># 3. Instantiate your new metric</span>
+<span class="n">relevancy_metric</span> <span class="o">=</span> <span class="n">AnswerRelevancyMetric</span><span class="p">(</span>
+    <span class="n">threshold</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span>
+    <span class="n">judge_llm</span><span class="o">=</span><span class="n">judge_llm</span>
+<span class="p">)</span>
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -125,6 +293,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Metrics</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#implement-a-custom-metric">Implement a Custom Metric</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#built-in-rebel-metrics">Built-in REBEL Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deepeval-integration">DeepEval Integration</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="deepeval_integration.html">DeepEval Integration</a></li>
