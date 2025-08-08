@@ -46,40 +46,116 @@
 <li><p><strong>Structured Output</strong>: Machine-readable JSON format for automated processing.</p></li>
 </ul>
 </section>
+<section id="understanding-the-output-file">
+<h2>Understanding the Output File<a class="headerlink" href="#understanding-the-output-file" title="Link to this heading">¶</a></h2>
+<p>REBEL saves results in a structured JSON file, making it easy to parse and analyze programmatically. Below is an example report followed by a detailed breakdown of its structure.</p>
 <section id="example-report">
-<h2>Example Report<a class="headerlink" href="#example-report" title="Link to this heading">¶</a></h2>
-<p>Results are automatically organized by model name and timestamp. Below is a simplified example of the JSON output structure.</p>
+<h3>Example Report<a class="headerlink" href="#example-report" title="Link to this heading">¶</a></h3>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20250722_113301&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;total_test_cases&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span>
+<span class="w">    </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20250808_125233&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;total_test_cases&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;test_cases&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test_example_[]&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test_counting_accuracy_[]&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">      </span><span class="nt">&quot;retry_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;aggregation_strategy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mean&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;input&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;messages&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;system&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;You are a helpful assistant...&quot;</span>
+<span class="w">          </span><span class="p">},</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The brave warrior rode rapidly through the forest...&quot;</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">&quot;api_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;expected_output&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;tools_called&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">        </span><span class="nt">&quot;context&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">        </span><span class="nt">&quot;execution_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{}</span>
+<span class="w">      </span><span class="p">],</span>
 <span class="w">      </span><span class="nt">&quot;actual_outputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">        </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Response text&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;execution_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.625</span>
+<span class="w">          </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;13&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;tools_called&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">          </span><span class="nt">&quot;context&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">          </span><span class="nt">&quot;execution_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9248490333557129</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;13&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;tools_called&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">          </span><span class="nt">&quot;context&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">          </span><span class="nt">&quot;execution_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0037972927093506</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;13&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;tools_called&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">          </span><span class="nt">&quot;context&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">          </span><span class="nt">&quot;execution_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8853063583374023</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">      </span><span class="p">],</span>
 <span class="w">      </span><span class="nt">&quot;evaluation_results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">        </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.85</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;verdict&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;passed&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;reason&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;High quality response&quot;</span>
+<span class="w">          </span><span class="nt">&quot;score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;verdict&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;failed&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;reason&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Incorrect result, expected 14, got 13&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;verdict&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;failed&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;reason&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Incorrect result, expected 14, got 13&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;verdict&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;failed&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;reason&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Incorrect result, expected 14, got 13&quot;</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">      </span><span class="p">],</span>
 <span class="w">      </span><span class="nt">&quot;aggregated_result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.85</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;verdict&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;passed&quot;</span>
+<span class="w">        </span><span class="nt">&quot;score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;verdict&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;failed&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;reason&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">]</span>
 <span class="p">}</span>
 </pre></div>
 </div>
+</section>
+<section id="how-to-read-the-report">
+<h3>How to Read the Report<a class="headerlink" href="#how-to-read-the-report" title="Link to this heading">¶</a></h3>
+<p>Here is a breakdown of the key fields in the JSON report:</p>
+<ul class="simple">
+<li><p><strong>`metadata`</strong>: Contains high-level information about the benchmark run, including the <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> and <code class="docutils literal notranslate"><span class="pre">total_test_cases</span></code> executed.</p></li>
+<li><p><strong>`test_cases`</strong>: A list where each object represents a fully evaluated test case.</p>
+<ul>
+<li><p><strong>`name`</strong> and <strong>`tags`</strong>: Identify the test case, derived from the test function’s name and any associated tags.</p></li>
+<li><p><strong>`retry_params`</strong>: Shows the configuration for this test case. In the example, the test was run <code class="docutils literal notranslate"><span class="pre">&quot;count&quot;:</span> <span class="pre">3</span></code> times, and the results were summarized using the <code class="docutils literal notranslate"><span class="pre">&quot;aggregation_strategy&quot;:</span> <span class="pre">&quot;mean&quot;</span></code>.</p></li>
+<li><p><strong>`input`</strong>: A complete record of the prompt (<code class="docutils literal notranslate"><span class="pre">messages</span></code>) and <code class="docutils literal notranslate"><span class="pre">api_params</span></code> sent to the model for this test case.</p></li>
+<li><p><strong>`actual_outputs`</strong>: A list containing the detailed response from each retry attempt. The length of this list matches the <code class="docutils literal notranslate"><span class="pre">count</span></code> in <cite>retry_params</cite>. Each object includes the model’s <code class="docutils literal notranslate"><span class="pre">output</span></code> and the <code class="docutils literal notranslate"><span class="pre">execution_time</span></code>. In the example, the model returned “13” on all three attempts.</p></li>
+<li><p><strong>`evaluation_results`</strong>: This list contains the detailed outcome from each metric for each attempt.
+- Its length is <cite>(number of metrics) * (number of retries)</cite>.
+- In the example, one metric was run on three attempts, resulting in three evaluation objects. Each one shows a <code class="docutils literal notranslate"><span class="pre">score</span></code> of <cite>0.0</cite> and a <code class="docutils literal notranslate"><span class="pre">verdict</span></code> of <cite>“failed”</cite> because the model’s output (“13”) did not match the metric’s expected value (14).</p></li>
+<li><p><strong>`aggregated_result`</strong>: This is the final, single verdict for the entire test case.
+- The <code class="docutils literal notranslate"><span class="pre">score</span></code> is calculated by applying the <code class="docutils literal notranslate"><span class="pre">aggregation_strategy</span></code> to the scores from the <cite>evaluation_results</cite>.
+- In this example, the strategy was <cite>“mean”</cite>, so the final score is <cite>mean(0.0, 0.0, 0.0)</cite>, which is <cite>0.0</cite>. This leads to an overall <code class="docutils literal notranslate"><span class="pre">verdict</span></code> of <cite>“failed”</cite> for this test case.</p></li>
+</ul>
+</li>
+</ul>
 <p>For more details on the output format, you can refer to the data models in the <a class="reference internal" href="api.html#api-reference"><span class="std std-ref">API Reference</span></a>, such as <a class="reference internal" href="api.html#rebel.models.evaluation.TestCaseEvaluated" title="rebel.models.evaluation.TestCaseEvaluated"><code class="xref py py-class docutils literal notranslate"><span class="pre">TestCaseEvaluated</span></code></a>.</p>
+</section>
 </section>
 </section>
 
@@ -121,7 +197,7 @@
 <li class="toctree-l1"><a class="reference internal" href="deepeval_integration.html">DeepEval Integration</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Results</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#result-analysis-features">Result Analysis Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#example-report">Example Report</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#understanding-the-output-file">Understanding the Output File</a></li>
 </ul>
 </li>
 </ul>
