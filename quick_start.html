@@ -91,6 +91,25 @@
 <section id="define-your-tests">
 <h2>2. Define Your Tests<a class="headerlink" href="#define-your-tests" title="Link to this heading">¶</a></h2>
 <p>Once you have your metric, you can define test cases using the <code class="docutils literal notranslate"><span class="pre">&#64;test_case</span></code> decorator. This example uses the <cite>LetterCountMetric</cite> we defined above to evaluate the test.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rebel</span><span class="w"> </span><span class="kn">import</span> <span class="n">test_case</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rebel.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">RoleEnum</span><span class="p">,</span> <span class="n">TestGroup</span><span class="p">,</span> <span class="n">RetryParams</span><span class="p">,</span> <span class="n">RetryAggregationStrategy</span>
+
+<span class="c1"># Assuming LetterCountMetric is defined in the same file or imported</span>
+
+<span class="nd">@test_case</span><span class="p">(</span>
+    <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">Message</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">RoleEnum</span><span class="o">.</span><span class="n">system</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="s2">&quot;You are a helpful assistant. When a user sends you a message, count the number of times the letter &#39;r&#39; appears in their message and respond with ONLY the numerical count. Do not include any other text, explanations, or formatting - just the number.&quot;</span><span class="p">),</span>
+        <span class="n">Message</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">RoleEnum</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="s2">&quot;The brave warrior rode rapidly through the forest, carrying three arrows in his quiver.&quot;</span><span class="p">)</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_counting_accuracy</span><span class="p">():</span>
+    <span class="c1"># The model should respond with the number 6.</span>
+    <span class="k">yield</span> <span class="n">TestGroup</span><span class="p">(</span>
+        <span class="n">retry_params</span><span class="o">=</span><span class="n">RetryParams</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">aggregation_strategy</span><span class="o">=</span><span class="n">RetryAggregationStrategy</span><span class="o">.</span><span class="n">MEAN</span><span class="p">),</span>
+        <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="n">LettersCalculationCorrectness</span><span class="p">(</span><span class="n">letter</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)]</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
 <p>For more details on creating tests, see the <a class="reference internal" href="defining_tests.html#defining-tests"><span class="std std-ref">Defining Tests</span></a> guide.</p>
 </section>
 <section id="run-your-benchmarks">
