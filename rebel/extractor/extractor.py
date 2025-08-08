@@ -19,8 +19,7 @@ class Extractor:
         tags: Optional[str],
         exclude_tags: Optional[str]
     ):
-        current_dir = Path(__file__).parent
-        tests_path = current_dir / test_dir
+        tests_path = Path(test_dir).resolve()
 
         if not tests_path.exists():
             raise ValueError(f"Tests directory '{test_dir}' not found")
@@ -40,8 +39,8 @@ class Extractor:
         test_suites.clear()
         
         for py_file in self.tests_path.rglob("*.py"):
-            if py_file.name.startswith("__"):
-                continue  # skip __init__.py and __pycache__
+            if py_file.name.startswith("__") or "test" not in py_file.name.lower():
+                continue  # skip __init__.py and __pycache__, export tests from files containing 'test' in the name
 
             # create module name from file path
             relative_path = py_file.relative_to(self.tests_path)
