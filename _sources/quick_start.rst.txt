@@ -68,8 +68,6 @@ Here is an example of a simple custom metric that checks if the assistant correc
 
 Once you have your metric, you can define test cases using the ``@test_case`` decorator. This example uses the `LetterCountMetric` we defined above to evaluate the test.
 
-For more details on creating tests, see the :ref:`defining_tests` guide.
-
 .. code-block:: python
     from rebel import test_case
     from rebel.models import Message, RoleEnum, TestGroup, RetryParams, RetryAggregationStrategy
@@ -88,6 +86,8 @@ For more details on creating tests, see the :ref:`defining_tests` guide.
             retry_params=RetryParams(count=3, aggregation_strategy=RetryAggregationStrategy.MEAN),
             metrics=[LettersCalculationCorrectness(letter='r')]
         )
+
+For more details on creating tests, see the :ref:`defining_tests` guide.
 
 3. Run Your Benchmarks
 ======================
